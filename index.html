@@ -146,19 +146,53 @@ function startMessages(){
   });
 }
 
-loginForm.addEventListener("submit",async e=>{
+function enterChat(user){
+  currentUser = user;
+  meLabel.textContent = displayName;
+  login.classList.add("hidden");
+  app.classList.remove("hidden");
+  startMessages();
+  messageInput.focus();
+
+  if(Notification.permission === "granted"){
+    notifyBtn.textContent = "通知ON";
+    notifyBtn.disabled = true;
+  }
+}
+
+loginForm.addEventListener("submit", async e => {
   e.preventDefault();
-  displayName=nameInput.value.trim().slice(0,24);
-  if(!displayName)return;
-  await signInAnonymously(auth);
+
+  displayName = nameInput.value.trim().slice(0,24);
+
+  if(!displayName){
+    alert("表示名を入力してください。");
+    return;
+  }
+
+  try{
+    if(auth.currentUser){
+      enterChat(auth.currentUser);
+    }else{
+      await signInAnonymously(auth);
+    }
+  }catch(err){
+    console.error(err);
+    alert("参加できませんでした。ページを再読み込みしてもう一度試してください。");
+  }
 });
 
-onAuthStateChanged(auth,user=>{
-  if(!user)return;
-  currentUser=user; meLabel.textContent=displayName;
-  login.classList.add("hidden"); app.classList.remove("hidden");
-  startMessages(); messageInput.focus();
-  if(Notification.permission==="granted"){notifyBtn.textContent="通知ON";notifyBtn.disabled=true;}
+onAuthStateChanged(auth, user => {
+  if(!user) return;
+
+  currentUser = user;
+
+  if(displayName){
+    enterChat(user);
+  }else{
+    login.classList.remove("hidden");
+    app.classList.add("hidden");
+  }
 });
 
 messageForm.addEventListener("submit",async e=>{
