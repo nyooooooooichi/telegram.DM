@@ -1,11 +1,13 @@
 {
-  "name":"TelestgramDM",
+  "name":"TelestgramDM Mark.6",
   "short_name":"TelestgramDM",
-  "start_url":"./",
+  "start_url":"./?source=pwa",
+  "scope":"./",
   "display":"standalone",
-  "background_color":"#080b12",
+  "background_color":"#090c13",
   "theme_color":"#6b7cff",
   "icons":[
-    {"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+    {"src":"./icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
+    {"src":"./icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
   ]
 }

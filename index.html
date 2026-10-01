@@ -3,58 +3,78 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#080b12">
+<meta name="theme-color" content="#0a0d14">
 <link rel="manifest" href="./manifest.webmanifest">
-<link rel="icon" href="./icon.svg" type="image/svg+xml">
-<title>TelestgramDM</title>
+<link rel="icon" href="./icon-192.png">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<title>TelestgramDM Mark.6</title>
 <style>
 :root{
- --bg:#080b12;--panel:#0f1420;--panel2:#171e2d;--panel3:#1d2638;--text:#f7f8fb;
- --muted:#9aa4b6;--line:#263248;--accent:#6b7cff;--accent2:#805cff;--ok:#55d58a;--danger:#ff6178;
- --font:1;--gap:11px
+ --bg:#090c13;--panel:#101622;--panel2:#171f2d;--panel3:#202a3c;--text:#f7f8fb;
+ --muted:#9aa5b7;--line:#263247;--accent:#6b7cff;--accent2:#8c5cff;--ok:#54d58b;
+ --danger:#ff647b;--warn:#ffbe55;--font:1;--gap:11px
 }
-body.light{--bg:#eef2f7;--panel:#fff;--panel2:#f5f7fb;--panel3:#e9eef6;--text:#172033;--muted:#697386;--line:#d7deea}
+body.light{--bg:#eef2f7;--panel:#fff;--panel2:#f4f7fb;--panel3:#e8edf5;--text:#182132;--muted:#697589;--line:#d7deea}
 *{box-sizing:border-box}
 html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:calc(16px * var(--font))}
-button,input,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}.muted{color:var(--muted)}.small{font-size:12px}
-.loginWrap{min-height:100vh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 10% 0%,rgba(107,124,255,.18),transparent 30%),radial-gradient(circle at 100% 0%,rgba(128,92,255,.14),transparent 30%),var(--bg)}
-.card,.modal{background:var(--panel);border:1px solid var(--line);border-radius:24px}
-.card{width:min(460px,100%);padding:26px}.logo{width:56px;height:56px;border-radius:18px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;color:#fff;font-weight:900;font-size:26px;margin-bottom:16px}
-.textInput{width:100%;border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:14px;padding:12px 13px;outline:none}.textInput:focus{border-color:var(--accent)}
-.primary{width:100%;border:0;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:800;padding:13px;margin-top:12px}
-.errorBox{margin-top:12px;padding:10px 12px;border-radius:12px;background:rgba(255,97,120,.12);border:1px solid rgba(255,97,120,.35);color:#ff9bac;font-size:13px}
-.topbar{height:66px;position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 12px}
-.groupInfo{display:flex;align-items:center;gap:10px;min-width:0}.groupAvatar{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;color:white;font-weight:900;flex:none}.groupName{font-weight:850;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:55vw}.statusLine{font-size:12px;color:var(--ok)}
+button,input,textarea,select{font:inherit}button{cursor:pointer}.hidden{display:none!important}.muted{color:var(--muted)}.small{font-size:12px}
+.loginWrap{min-height:100vh;display:grid;place-items:center;padding:24px;background:
+ radial-gradient(circle at 15% 0%,rgba(107,124,255,.2),transparent 32%),
+ radial-gradient(circle at 100% 10%,rgba(140,92,255,.15),transparent 30%),var(--bg)}
+.card,.modal{background:var(--panel);border:1px solid var(--line);border-radius:26px}
+.card{width:min(460px,100%);padding:28px}.brand{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.logo{width:58px;height:58px;border-radius:19px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;color:#fff;font-weight:950;font-size:27px;box-shadow:0 12px 30px rgba(107,124,255,.22)}
+.mark{font-size:12px;color:#c2c9ff;background:rgba(107,124,255,.14);border:1px solid rgba(107,124,255,.3);padding:4px 8px;border-radius:999px}
+.textInput,select{width:100%;border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:14px;padding:12px 13px;outline:none}
+.textInput:focus,select:focus{border-color:var(--accent)}
+.primary{width:100%;border:0;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:850;padding:13px;margin-top:12px}
+.errorBox{margin-top:12px;padding:10px 12px;border-radius:12px;background:rgba(255,100,123,.12);border:1px solid rgba(255,100,123,.35);color:#ff9daf;font-size:13px}
+
+.topbar{height:66px;position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 12px}
+.groupInfo{display:flex;align-items:center;gap:10px;min-width:0}.groupAvatar{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;color:white;font-weight:950;flex:none}.groupName{font-weight:880;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:48vw}.statusLine{font-size:12px;color:var(--ok)}
 .actions{display:flex;gap:6px}.iconBtn{width:40px;height:40px;border:1px solid var(--line);border-radius:12px;background:var(--panel2);color:var(--text)}
-.searchBar{position:sticky;top:66px;z-index:19;background:var(--bg);padding:8px 12px;border-bottom:1px solid var(--line)}.searchWrap{width:min(940px,100%);margin:auto;display:flex;gap:8px}.searchInput{flex:1}
-.messages{width:min(940px,100%);margin:0 auto;padding:14px 12px 170px;display:flex;flex-direction:column;gap:var(--gap)}
+.pinned{position:sticky;top:66px;z-index:27;background:color-mix(in srgb,var(--panel) 96%,transparent);border-bottom:1px solid var(--line);padding:8px 12px}
+.pinnedInner{width:min(940px,100%);margin:auto;display:flex;align-items:center;justify-content:space-between;gap:10px}.pinnedText{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pinBadge{color:var(--warn);font-weight:800}
+.searchBar{position:sticky;top:66px;z-index:25;background:var(--bg);padding:8px 12px;border-bottom:1px solid var(--line)}body.hasPin .searchBar{top:107px}
+.searchWrap{width:min(940px,100%);margin:auto;display:flex;gap:8px}.searchInput{flex:1}
+
+.messages{width:min(940px,100%);margin:0 auto;padding:14px 12px 182px;display:flex;flex-direction:column;gap:var(--gap)}
 .daySep{align-self:center;font-size:11px;color:var(--muted);background:var(--panel);border:1px solid var(--line);padding:6px 10px;border-radius:999px}
-.unreadLine{display:flex;align-items:center;gap:8px;color:#ff7188;font-size:11px;font-weight:800}.unreadLine:before,.unreadLine:after{content:"";height:1px;background:#ff6178;flex:1}
+.unreadLine{display:flex;align-items:center;gap:8px;color:#ff7188;font-size:11px;font-weight:850}.unreadLine:before,.unreadLine:after{content:"";height:1px;background:#ff6178;flex:1}
 .msgRow{display:flex;gap:8px;max-width:84%;align-items:flex-end}.msgRow.mine{align-self:flex-end;flex-direction:row-reverse}.msgRow.other{align-self:flex-start}
-.avatar{width:32px;height:32px;border-radius:50%;overflow:hidden;background:var(--panel3);display:grid;place-items:center;border:1px solid var(--line);font-size:12px;font-weight:800;flex:0 0 auto}.avatar img{width:100%;height:100%;object-fit:cover}
+.avatar{width:33px;height:33px;border-radius:50%;overflow:hidden;background:var(--panel3);display:grid;place-items:center;border:1px solid var(--line);font-size:12px;font-weight:800;flex:0 0 auto}.avatar img{width:100%;height:100%;object-fit:cover}
 .msgBlock{min-width:0}.sender{font-size:11px;color:var(--muted);margin:0 6px 4px}.mine .sender{text-align:right}
 .bubbleWrap{display:flex;align-items:center;gap:5px}.mine .bubbleWrap{flex-direction:row-reverse}
-.bubble{background:var(--panel2);border:1px solid var(--line);border-radius:18px;padding:10px 12px;white-space:pre-wrap;word-break:break-word;line-height:1.45}.mine .bubble{background:linear-gradient(135deg,#6578ff,#775cff);border-color:transparent;color:white}.bubble a{color:#8ec5ff;text-decoration:underline}.mine .bubble a{color:white}.mentionTag{background:rgba(107,124,255,.22);border-radius:5px;padding:1px 3px;font-weight:700}
+.bubble{background:var(--panel2);border:1px solid var(--line);border-radius:18px;padding:10px 12px;white-space:pre-wrap;word-break:break-word;line-height:1.45}.mine .bubble{background:linear-gradient(135deg,#6578ff,#7b5cff);border-color:transparent;color:white}
+.bubble a{color:#8ec5ff;text-decoration:underline}.mine .bubble a{color:white}.mentionTag{background:rgba(107,124,255,.24);border-radius:5px;padding:1px 3px;font-weight:750}.mentionMine{outline:2px solid rgba(255,190,85,.65)}
 .replyPreview{font-size:11px;border-left:3px solid currentColor;padding-left:7px;margin-bottom:7px;opacity:.72}.meta{font-size:10px;color:var(--muted);margin-top:4px;padding:0 6px}.mine .meta{text-align:right}
 .moreBtn{width:29px;height:29px;border:0;border-radius:9px;background:transparent;color:var(--muted)}
 .reactions{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px}.reactPill{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:999px;padding:3px 7px;font-size:11px}
-.composerShell{position:fixed;left:0;right:0;bottom:0;z-index:25;background:linear-gradient(180deg,transparent,var(--bg) 28%);padding:28px 8px max(8px,env(safe-area-inset-bottom))}
+.systemMsg{align-self:center;color:var(--muted);font-size:11px;background:var(--panel);border:1px solid var(--line);padding:7px 11px;border-radius:999px}
+.announcement{align-self:stretch;max-width:none;background:linear-gradient(135deg,rgba(107,124,255,.12),rgba(140,92,255,.12));border:1px solid rgba(107,124,255,.35);border-radius:18px;padding:12px 14px}.announcement b{display:block;color:#cbd1ff;margin-bottom:4px}
+.poll{background:var(--panel2);border:1px solid var(--line);border-radius:18px;padding:12px;min-width:min(360px,78vw)}.pollQ{font-weight:800;margin-bottom:9px}.pollOption{width:100%;text-align:left;border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:11px;padding:9px 10px;margin-top:6px}.pollOption.mineVote{border-color:var(--accent)}.pollCount{float:right;color:var(--muted);font-size:12px}
+
+.composerShell{position:fixed;left:0;right:0;bottom:0;z-index:28;background:linear-gradient(180deg,transparent,var(--bg) 28%);padding:28px 8px max(8px,env(safe-area-inset-bottom))}
 .replyBar{width:min(940px,100%);margin:0 auto 6px;background:var(--panel2);border:1px solid var(--line);border-radius:13px;padding:8px 10px;display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:12px}
-.composer{width:min(940px,100%);margin:0 auto;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:8px;display:flex;gap:8px;align-items:flex-end}.messageInput{flex:1;min-width:0;max-height:120px;resize:none;border:0;background:transparent;color:var(--text);outline:none;padding:10px 8px}.emojiBtn,.sendBtn{width:45px;height:45px;border:0;border-radius:14px}.emojiBtn{background:var(--panel2);color:var(--text)}.sendBtn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:900}
-.scrollBtn{position:fixed;right:18px;bottom:125px;width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:var(--panel2);color:var(--text);z-index:28;box-shadow:0 8px 25px rgba(0,0,0,.25)}
-.modalBack{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.58);display:grid;place-items:center;padding:16px}.modal{width:min(480px,100%);max-height:84vh;overflow:auto;padding:18px}.modalHeader{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.closeBtn{width:38px;height:38px;border:0;border-radius:12px;background:var(--panel2);color:var(--text)}
-.settingRow{padding:13px 0;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px}.settingRow b{display:block}.settingRow span{font-size:12px;color:var(--muted)}.actionBtn{border:0;border-radius:11px;padding:9px 11px;background:var(--panel3);color:var(--text);font-weight:700}.danger{color:#ff8a9b!important}
-.profileHead{display:flex;gap:14px;align-items:center;margin-bottom:16px}.profileBig{width:76px;height:76px;border-radius:50%;overflow:hidden;background:var(--panel3);display:grid;place-items:center;font-size:28px;font-weight:900;border:1px solid var(--line)}.profileBig img{width:100%;height:100%;object-fit:cover}.profileBio{color:var(--muted);font-size:13px;white-space:pre-wrap}
-.member{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.dot{width:9px;height:9px;border-radius:50%;background:var(--ok)}.offlineDot{background:#6d7685}.mentionBox,.menuBox{position:fixed;z-index:75;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:6px;box-shadow:0 18px 50px rgba(0,0,0,.35)}.mentionBox{max-height:220px;overflow:auto;min-width:220px}.mentionBox button,.menuBox button{width:100%;border:0;background:transparent;color:var(--text);text-align:left;padding:9px;border-radius:9px}
-.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);z-index:100;background:#1b2333;color:#fff;border:1px solid #33415c;border-radius:999px;padding:10px 14px;font-size:13px;box-shadow:0 10px 35px rgba(0,0,0,.3)}
-@media(max-width:680px){.messages{padding:12px 9px 170px}.msgRow{max-width:92%}.topbar{height:62px;padding:0 8px}.searchBar{top:62px}.actions{gap:4px}.iconBtn{width:38px;height:38px}.groupName{max-width:42vw}}
+.composer{width:min(940px,100%);margin:0 auto;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:8px;display:flex;gap:8px;align-items:flex-end}.messageInput{flex:1;min-width:0;max-height:120px;resize:none;border:0;background:transparent;color:var(--text);outline:none;padding:10px 8px}.emojiBtn,.sendBtn{width:45px;height:45px;border:0;border-radius:14px}.emojiBtn{background:var(--panel2);color:var(--text)}.sendBtn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:950}
+.scrollBtn{position:fixed;right:18px;bottom:128px;width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:var(--panel2);color:var(--text);z-index:31;box-shadow:0 8px 25px rgba(0,0,0,.25)}
+
+.modalBack{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.6);display:grid;place-items:center;padding:16px}.modal{width:min(500px,100%);max-height:86vh;overflow:auto;padding:18px}.modalHeader{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.closeBtn{width:38px;height:38px;border:0;border-radius:12px;background:var(--panel2);color:var(--text)}
+.settingRow{padding:13px 0;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px}.settingRow b{display:block}.settingRow span{font-size:12px;color:var(--muted)}.actionBtn{border:0;border-radius:11px;padding:9px 11px;background:var(--panel3);color:var(--text);font-weight:750}.danger{color:#ff8a9b!important}
+.profileHead{display:flex;gap:14px;align-items:center;margin-bottom:16px}.profileBig{width:78px;height:78px;border-radius:50%;overflow:hidden;background:var(--panel3);display:grid;place-items:center;font-size:28px;font-weight:900;border:1px solid var(--line)}.profileBig img{width:100%;height:100%;object-fit:cover}.profileBio{color:var(--muted);font-size:13px;white-space:pre-wrap}
+.member{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.dot{width:9px;height:9px;border-radius:50%;background:var(--ok)}.offlineDot{background:#6d7685}
+.mentionBox,.menuBox{position:fixed;z-index:85;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:6px;box-shadow:0 18px 50px rgba(0,0,0,.35)}.mentionBox{max-height:220px;overflow:auto;min-width:220px}.mentionBox button,.menuBox button{width:100%;border:0;background:transparent;color:var(--text);text-align:left;padding:9px;border-radius:9px}.menuBox{min-width:190px}
+.toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%);z-index:100;background:#1b2333;color:#fff;border:1px solid #33415c;border-radius:999px;padding:10px 14px;font-size:13px;box-shadow:0 10px 35px rgba(0,0,0,.3)}
+.adminPanel .settingRow{align-items:flex-start}.adminTitle{display:flex;align-items:center;gap:8px}.adminCrown{color:var(--warn)}
+@media(max-width:680px){.messages{padding:12px 9px 182px}.msgRow{max-width:92%}.topbar{height:62px;padding:0 8px}.pinned{top:62px}.searchBar{top:62px}body.hasPin .searchBar{top:103px}.actions{gap:4px}.iconBtn{width:38px;height:38px}.groupName{max-width:38vw}}
 </style>
 </head>
 <body>
 
 <section id="login" class="loginWrap">
  <div class="card">
-  <div class="logo">T</div><h1>TelestgramDM</h1><p class="muted">表示名は最初の1回だけ設定します。</p>
+  <div class="brand"><div class="logo">T</div><div><h1 style="margin:0">TelestgramDM</h1><span class="mark">Mark.6</span></div></div>
+  <p class="muted">表示名は最初の1回だけ設定します。</p>
   <form id="loginForm"><input id="nameInput" class="textInput" maxlength="24" placeholder="表示名を入力" required><button id="startBtn" class="primary">はじめる</button></form>
   <div id="loginError" class="errorBox hidden"></div>
  </div>
@@ -63,8 +83,10 @@ button,input,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!im
 <section id="app" class="hidden">
 <header class="topbar">
  <div class="groupInfo"><div class="groupAvatar">T</div><div><div id="roomNameEl" class="groupName">みんなのグループ</div><div id="onlineStatus" class="statusLine">● 接続中</div></div></div>
- <div class="actions"><button id="membersBtn" class="iconBtn">👥</button><button id="profileBtn" class="iconBtn">👤</button><button id="settingsBtn" class="iconBtn">⚙️</button></div>
+ <div class="actions"><button id="adminBtn" class="iconBtn hidden">👑</button><button id="membersBtn" class="iconBtn">👥</button><button id="profileBtn" class="iconBtn">👤</button><button id="settingsBtn" class="iconBtn">⚙️</button></div>
 </header>
+
+<div id="pinnedBar" class="pinned hidden"><div class="pinnedInner"><div class="pinnedText"><span class="pinBadge">📌 ピン留め</span> <span id="pinnedText"></span></div><button id="goPinnedBtn" class="actionBtn">見る</button></div></div>
 
 <div class="searchBar"><div class="searchWrap"><input id="searchInput" class="textInput searchInput" placeholder="メッセージ検索"><button id="shareBtn" class="iconBtn">🔗</button></div></div>
 
@@ -73,22 +95,28 @@ button,input,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!im
 
 <div class="composerShell">
  <div id="replyBar" class="replyBar hidden"><span id="replyText"></span><button id="cancelReply" class="closeBtn" type="button">✕</button></div>
- <form id="messageForm" class="composer">
-  <button id="emojiBtn" class="emojiBtn" type="button">😊</button>
-  <textarea id="messageInput" class="messageInput" maxlength="1000" rows="1" placeholder="メッセージ…"></textarea>
-  <button class="sendBtn">➤</button>
- </form>
+ <form id="messageForm" class="composer"><button id="emojiBtn" class="emojiBtn" type="button">😊</button><textarea id="messageInput" class="messageInput" maxlength="1000" rows="1" placeholder="メッセージ…"></textarea><button class="sendBtn">➤</button></form>
 </div>
 </section>
 
 <div id="settingsModal" class="modalBack hidden"><div class="modal">
 <div class="modalHeader"><h2 style="margin:0">設定</h2><button id="closeSettings" class="closeBtn">✕</button></div>
 <div class="settingRow"><div><b>管理者コード</b><span>コードを入力して管理者モード</span></div><button id="adminCodeBtn" class="actionBtn">入力</button></div>
-<div id="adminRoomRow" class="settingRow hidden"><div><b>ルーム名変更</b><span>管理者モードのみ</span></div><button id="renameRoomBtn" class="actionBtn">変更</button></div>
+<div class="settingRow"><div><b>通知</b><span>@メンションをブラウザ通知</span></div><button id="notifyBtn" class="actionBtn">許可</button></div>
 <div class="settingRow"><div><b>テーマ</b><span>黒 / 白</span></div><button id="themeBtn" class="actionBtn">切替</button></div>
 <div class="settingRow"><div><b>文字サイズ</b><span>小 / 普通 / 大</span></div><button id="fontBtn" class="actionBtn">変更</button></div>
 <div class="settingRow"><div><b>表示間隔</b><span>通常 / コンパクト</span></div><button id="compactBtn" class="actionBtn">切替</button></div>
+<div class="settingRow"><div><b>この端末からログアウト</b><span>次回は新しいアカウントになります</span></div><button id="logoutBtn" class="actionBtn danger">ログアウト</button></div>
 <div class="settingRow"><div><b>キャッシュリセット</b><span>この端末の保存情報を削除</span></div><button id="cacheBtn" class="actionBtn danger">リセット</button></div>
+</div></div>
+
+<div id="adminModal" class="modalBack hidden"><div class="modal adminPanel">
+<div class="modalHeader"><div class="adminTitle"><span class="adminCrown">👑</span><h2 style="margin:0">管理者パネル</h2></div><button id="closeAdmin" class="closeBtn">✕</button></div>
+<div class="settingRow"><div><b>ルーム名</b><span id="adminRoomName"></span></div><button id="renameRoomBtn" class="actionBtn">変更</button></div>
+<div class="settingRow"><div><b>お知らせ投稿</b><span>全員に目立つ形で表示</span></div><button id="announcementBtn" class="actionBtn">投稿</button></div>
+<div class="settingRow"><div><b>投票を作成</b><span>最大4択</span></div><button id="pollBtn" class="actionBtn">作る</button></div>
+<div class="settingRow"><div><b>スローモード</b><span>連投の間隔を設定</span></div><select id="slowSelect" style="width:150px"><option value="0">OFF</option><option value="3">3秒</option><option value="5">5秒</option><option value="10">10秒</option><option value="30">30秒</option></select></div>
+<div class="settingRow"><div><b>ピン留め解除</b><span>現在の固定メッセージを解除</span></div><button id="unpinBtn" class="actionBtn">解除</button></div>
 </div></div>
 
 <div id="profileModal" class="modalBack hidden"><div class="modal">
@@ -101,10 +129,11 @@ button,input,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!im
 <input id="profileNameInput" class="textInput" maxlength="24" placeholder="表示名" style="margin-top:12px">
 <textarea id="bioInput" class="textInput" maxlength="120" style="min-height:90px;resize:vertical;margin-top:10px" placeholder="ひとこと"></textarea>
 <button id="saveProfileBtn" class="primary">プロフィール保存</button>
-</div>
-</div></div>
+</div></div></div>
 
 <div id="membersModal" class="modalBack hidden"><div class="modal"><div class="modalHeader"><h2 style="margin:0">メンバー</h2><button id="closeMembers" class="closeBtn">✕</button></div><div id="membersList"></div></div></div>
+
+<div id="detailsModal" class="modalBack hidden"><div class="modal"><div class="modalHeader"><h2 id="detailsTitle" style="margin:0">詳細</h2><button id="closeDetails" class="closeBtn">✕</button></div><div id="detailsBody"></div></div></div>
 
 <div id="mentionBox" class="mentionBox hidden"></div>
 <div id="menuBox" class="menuBox hidden"></div>
@@ -112,8 +141,8 @@ button,input,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!im
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
-import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
-import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp, doc, setDoc, getDoc, updateDoc, deleteDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+import { getAuth, signInAnonymously, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp, doc, setDoc, getDoc, updateDoc, deleteDoc, arrayUnion, arrayRemove, writeBatch } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
 const firebaseConfig={apiKey:"AIzaSyCrRzSomSPngvYviAjB8DdOSsw9ez0FVEg",authDomain:"telestgramdm.firebaseapp.com",projectId:"telestgramdm",storageBucket:"telestgramdm.firebasestorage.app",messagingSenderId:"705244166001",appId:"1:705244166001:web:1ca61eb8c3da30fb8528d0"};
 const fb=initializeApp(firebaseConfig),auth=getAuth(fb),db=getFirestore(fb),ROOM_ID="main-group",ADMIN_CODE_HASH="1b51c82b6956ef897f3eef0a9ba512d65291f5d3ea8dd71ed8ae37e191797720";
@@ -123,32 +152,38 @@ const login=$("#login"),app=$("#app"),loginForm=$("#loginForm"),nameInput=$("#na
 const messages=$("#messages"),messageForm=$("#messageForm"),messageInput=$("#messageInput"),scrollBtn=$("#scrollBtn"),searchInput=$("#searchInput"),shareBtn=$("#shareBtn");
 const settingsModal=$("#settingsModal"),settingsBtn=$("#settingsBtn"),closeSettings=$("#closeSettings"),membersModal=$("#membersModal"),membersBtn=$("#membersBtn"),closeMembers=$("#closeMembers"),membersList=$("#membersList");
 const profileModal=$("#profileModal"),profileBtn=$("#profileBtn"),closeProfile=$("#closeProfile"),profileBig=$("#profileBig"),profileName=$("#profileName"),profileLast=$("#profileLast"),profileBio=$("#profileBio"),myProfileEdit=$("#myProfileEdit"),avatarBtn=$("#avatarBtn"),avatarInput=$("#avatarInput"),profileNameInput=$("#profileNameInput"),bioInput=$("#bioInput"),saveProfileBtn=$("#saveProfileBtn");
-const roomNameEl=$("#roomNameEl"),onlineStatus=$("#onlineStatus"),adminCodeBtn=$("#adminCodeBtn"),adminRoomRow=$("#adminRoomRow"),renameRoomBtn=$("#renameRoomBtn"),themeBtn=$("#themeBtn"),fontBtn=$("#fontBtn"),compactBtn=$("#compactBtn"),cacheBtn=$("#cacheBtn");
+const adminBtn=$("#adminBtn"),adminModal=$("#adminModal"),closeAdmin=$("#closeAdmin"),adminRoomName=$("#adminRoomName"),renameRoomBtn=$("#renameRoomBtn"),announcementBtn=$("#announcementBtn"),pollBtn=$("#pollBtn"),slowSelect=$("#slowSelect"),unpinBtn=$("#unpinBtn");
+const roomNameEl=$("#roomNameEl"),onlineStatus=$("#onlineStatus"),adminCodeBtn=$("#adminCodeBtn"),notifyBtn=$("#notifyBtn"),themeBtn=$("#themeBtn"),fontBtn=$("#fontBtn"),compactBtn=$("#compactBtn"),logoutBtn=$("#logoutBtn"),cacheBtn=$("#cacheBtn");
+const pinnedBar=$("#pinnedBar"),pinnedText=$("#pinnedText"),goPinnedBtn=$("#goPinnedBtn");
 const mentionBox=$("#mentionBox"),menuBox=$("#menuBox"),toast=$("#toast"),emojiBtn=$("#emojiBtn"),replyBar=$("#replyBar"),replyText=$("#replyText"),cancelReply=$("#cancelReply");
+const detailsModal=$("#detailsModal"),detailsTitle=$("#detailsTitle"),detailsBody=$("#detailsBody"),closeDetails=$("#closeDetails");
 
-let me=null,myProfile=null,profiles=new Map(),docs=[],unreadCutoff=Number(localStorage.getItem("lastReadAt")||0),isAdmin=localStorage.getItem("adminMode")==="1",roomName="みんなのグループ";
-let replyTarget=null,typingTimer=null,typingActive=false;
+let me=null,myProfile=null,profiles=new Map(),docs=[],unreadCutoff=Number(localStorage.getItem("lastReadAt")||0),isAdmin=localStorage.getItem("adminMode")==="1";
+let roomConfig={roomName:"みんなのグループ",pinnedMessageId:"",slowModeSeconds:0},replyTarget=null,typingTimer=null,typingActive=false,firstMessageSnapshot=true;
 
 function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
 function linkify(t){return esc(t).replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>').replace(/(^|\s)(@[\wぁ-んァ-ン一-龯ー]+)/g,'$1<span class="mentionTag">$2</span>')}
 function avatarHTML(p){return p?.avatar?`<img src="${p.avatar}" alt="">`:esc((p?.name||"?").slice(0,1).toUpperCase())}
-function ms(ts){try{return ts?.toMillis?.()||0}catch{return 0}}
-function d(ts){try{return ts?.toDate?.()||new Date()}catch{return new Date()}}
+function ms(ts){try{return ts?.toMillis?.()||0}catch{return 0}} function d(ts){try{return ts?.toDate?.()||new Date()}catch{return new Date()}}
 function fmtTime(ts){return d(ts).toLocaleTimeString("ja-JP",{hour:"2-digit",minute:"2-digit"})}
 function fmtLast(ts){const t=ms(ts);if(!t)return"最終オンライン不明";const diff=Date.now()-t;if(diff<95000)return"オンライン";if(diff<3600000)return`${Math.max(1,Math.floor(diff/60000))}分前にオンライン`;if(diff<86400000)return`${Math.floor(diff/3600000)}時間前にオンライン`;return d(ts).toLocaleDateString("ja-JP")+" にオンライン"}
 async function sha256(s){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
-function showToast(t){toast.textContent=t;toast.classList.remove("hidden");clearTimeout(showToast.t);showToast.t=setTimeout(()=>toast.classList.add("hidden"),1800)}
+function showToast(t){toast.textContent=t;toast.classList.remove("hidden");clearTimeout(showToast.t);showToast.t=setTimeout(()=>toast.classList.add("hidden"),1900)}
 function showLoginError(err){console.error(err);loginError.textContent="エラー: "+(err?.message||err);loginError.classList.remove("hidden")}
 
 async function ensureProfile(n){
  const r=doc(db,"rooms",ROOM_ID,"profiles",me.uid),s=await getDoc(r);
- if(s.exists())myProfile=s.data();
- else{myProfile={uid:me.uid,name:n,bio:"",avatar:""};await setDoc(r,{...myProfile,lastSeen:serverTimestamp()})}
+ if(s.exists()) myProfile=s.data();
+ else{
+  myProfile={uid:me.uid,name:n,bio:"",avatar:"",joinedAt:Date.now()};
+  await setDoc(r,{...myProfile,lastSeen:serverTimestamp(),joinedAt:serverTimestamp()});
+  try{await addDoc(collection(db,"rooms",ROOM_ID,"messages"),{type:"system",text:`${n} が参加しました`,uid:me.uid,name:n,createdAt:serverTimestamp(),readBy:[me.uid]})}catch{}
+ }
  localStorage.setItem("displayName",myProfile.name);
 }
 async function enter(){
  try{
-  login.classList.add("hidden");app.classList.remove("hidden");await loadRoom();startProfiles();startTypingWatch();startMessages();touch();setInterval(touch,40000);
+  login.classList.add("hidden");app.classList.remove("hidden");await loadRoom();startProfiles();startTypingWatch();startMessages();touch();setInterval(touch,40000);refreshAdminUI();
  }catch(e){app.classList.add("hidden");login.classList.remove("hidden");showLoginError(e)}
 }
 loginForm.onsubmit=async e=>{
@@ -161,7 +196,8 @@ loginForm.onsubmit=async e=>{
  finally{startBtn.disabled=false;startBtn.textContent="はじめる"}
 };
 onAuthStateChanged(auth,async u=>{
- if(!u)return;me=u;const saved=localStorage.getItem("displayName");
+ if(!u){login.classList.remove("hidden");app.classList.add("hidden");return}
+ me=u;const saved=localStorage.getItem("displayName");
  if(saved){try{await ensureProfile(saved);await enter()}catch(e){showLoginError(e)}}else login.classList.remove("hidden");
 });
 
@@ -169,10 +205,18 @@ async function touch(){if(me)try{await setDoc(doc(db,"rooms",ROOM_ID,"profiles",
 async function setTyping(active){if(!me)return;try{await setDoc(doc(db,"rooms",ROOM_ID,"typing",me.uid),{active,name:myProfile?.name||"",updatedAt:serverTimestamp()},{merge:true})}catch{}}
 
 async function loadRoom(){
- const r=doc(db,"rooms",ROOM_ID,"config","main"),s=await getDoc(r);if(s.exists()&&s.data().roomName)roomName=s.data().roomName;
- roomNameEl.textContent=roomName;
- onSnapshot(r,x=>{if(x.exists()&&x.data().roomName){roomName=x.data().roomName;roomNameEl.textContent=roomName}});
+ const r=doc(db,"rooms",ROOM_ID,"config","main"),s=await getDoc(r);
+ if(s.exists())roomConfig={...roomConfig,...s.data()};
+ applyRoomConfig();
+ onSnapshot(r,x=>{if(x.exists()){roomConfig={...roomConfig,...x.data()};applyRoomConfig()}});
 }
+function applyRoomConfig(){
+ roomNameEl.textContent=roomConfig.roomName||"みんなのグループ";adminRoomName.textContent=roomConfig.roomName||"みんなのグループ";slowSelect.value=String(roomConfig.slowModeSeconds||0);
+ const pin=docs.find(x=>x.id===roomConfig.pinnedMessageId);
+ if(roomConfig.pinnedMessageId&&pin){pinnedText.textContent=(pin.data.text||"投票").slice(0,90);pinnedBar.classList.remove("hidden");document.body.classList.add("hasPin")}
+ else{pinnedBar.classList.add("hidden");document.body.classList.remove("hasPin")}
+}
+
 function startProfiles(){
  onSnapshot(collection(db,"rooms",ROOM_ID,"profiles"),snap=>{
   profiles.clear();snap.forEach(x=>profiles.set(x.id,x.data()));
@@ -189,23 +233,38 @@ function startTypingWatch(){
 }
 
 function reactionHtml(m,id){
- const rs=m.reactions||{},map=[["like","👍"],["heart","❤️"],["laugh","😂"],["fire","🔥"]];
+ const rs=m.reactions||{},map=[["like","👍"],["heart","❤️"],["laugh","😂"],["fire","🔥"],["eyes","👀"]];
  return map.filter(([k])=>(rs[k]||[]).length).map(([k,e])=>`<button class="reactPill" data-id="${id}" data-key="${k}">${e} ${(rs[k]||[]).length}</button>`).join("");
 }
+function pollHtml(x){
+ const m=x.data, votes=m.pollVotes||{},opts=m.options||[];
+ return `<div class="poll"><div class="pollQ">${esc(m.question||"投票")}</div>`+opts.map((o,i)=>{
+  const arr=votes[String(i)]||[],mine=arr.includes(me?.uid);
+  return `<button class="pollOption ${mine?"mineVote":""}" data-id="${x.id}" data-opt="${i}">${esc(o)} <span class="pollCount">${arr.length}票</span></button>`
+ }).join("")+`</div>`;
+}
 function buildMessage(x){
- const m=x.data,p=profiles.get(m.uid)||{name:m.name||"匿名"},mine=m.uid===me?.uid,row=document.createElement("div");row.className="msgRow "+(mine?"mine":"other");row.dataset.id=x.id;
+ const m=x.data;
+ if(m.type==="system"){const e=document.createElement("div");e.className="systemMsg";e.dataset.id=x.id;e.textContent=m.text||"";return e}
+ if(m.type==="announcement"){const e=document.createElement("div");e.className="announcement";e.dataset.id=x.id;e.innerHTML=`<b>📢 お知らせ</b>${linkify(m.text||"")}`;return e}
+ const p=profiles.get(m.uid)||{name:m.name||"匿名"},mine=m.uid===me?.uid,row=document.createElement("div");row.className="msgRow "+(mine?"mine":"other");row.dataset.id=x.id;
  const rep=m.replyTo?`<div class="replyPreview">${esc(m.replyTo.name||"")}: ${esc((m.replyTo.text||"").slice(0,80))}</div>`:"";
- row.innerHTML=`<div class="avatar" data-uid="${m.uid}">${avatarHTML(p)}</div><div class="msgBlock"><div class="sender">${esc(p.name||m.name||"匿名")}</div><div class="bubbleWrap"><div class="bubble">${rep}${linkify(m.text||"")}</div><button class="moreBtn">⋯</button></div><div class="reactions">${reactionHtml(m,x.id)}</div><div class="meta">${fmtTime(m.createdAt)}${m.editedAt?" ・ 編集済み":""}</div></div>`;
- row.querySelector(".avatar").onclick=()=>openProfile(m.uid);
- row.querySelector(".moreBtn").onclick=e=>openMessageMenu(e,x);
- row.querySelectorAll(".reactPill").forEach(b=>b.onclick=()=>toggleReaction(x,b.dataset.key));
+ const mentionsMe=myProfile?.name&&new RegExp(`(^|\\s)@${myProfile.name.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")}(?=\\s|$)`).test(m.text||"");
+ const content=m.type==="poll"?pollHtml(x):`<div class="bubble ${mentionsMe?"mentionMine":""}">${rep}${linkify(m.text||"")}</div>`;
+ row.innerHTML=`<div class="avatar" data-uid="${m.uid}">${avatarHTML(p)}</div><div class="msgBlock"><div class="sender">${esc(p.name||m.name||"匿名")}</div><div class="bubbleWrap">${content}<button class="moreBtn">⋯</button></div><div class="reactions">${reactionHtml(m,x.id)}</div><div class="meta">${fmtTime(m.createdAt)}${m.editedAt?" ・ 編集済み":""}${mine?` ・ 既読 ${(m.readBy||[]).filter(u=>u!==m.uid).length}`:""}</div></div>`;
+ row.querySelector(".avatar")?.addEventListener("click",()=>openProfile(m.uid));
+ row.querySelector(".moreBtn")?.addEventListener("click",e=>openMessageMenu(e,x));
+ row.querySelectorAll(".reactPill").forEach(b=>{
+  b.onclick=()=>toggleReaction(x,b.dataset.key);
+  b.oncontextmenu=e=>{e.preventDefault();showReactionPeople(x,b.dataset.key)};
+ });
+ row.querySelectorAll(".pollOption").forEach(b=>b.onclick=()=>votePoll(x,Number(b.dataset.opt)));
+ let holdTimer;
+ row.addEventListener("pointerdown",e=>{if(e.pointerType==="touch")holdTimer=setTimeout(()=>openMessageMenu({clientX:e.clientX,clientY:e.clientY},x),520)});
+ row.addEventListener("pointerup",()=>clearTimeout(holdTimer));row.addEventListener("pointercancel",()=>clearTimeout(holdTimer));row.addEventListener("pointermove",()=>clearTimeout(holdTimer));
  return row;
 }
-function filteredDocs(){
- const q=searchInput.value.trim().toLowerCase();
- if(!q)return docs;
- return docs.filter(x=>(x.data.text||"").toLowerCase().includes(q)||(x.data.name||"").toLowerCase().includes(q));
-}
+function filteredDocs(){const q=searchInput.value.trim().toLowerCase();if(!q)return docs;return docs.filter(x=>(x.data.text||"").toLowerCase().includes(q)||(x.data.name||"").toLowerCase().includes(q)||(x.data.question||"").toLowerCase().includes(q))}
 function renderMessages(){
  messages.innerHTML="";let lastDay="",unread=false;
  for(const x of filteredDocs()){
@@ -214,33 +273,46 @@ function renderMessages(){
   if(!unread&&ms(x.data.createdAt)>unreadCutoff&&x.data.uid!==me?.uid){const u=document.createElement("div");u.className="unreadLine";u.textContent="ここから未読";messages.appendChild(u);unread=true}
   messages.appendChild(buildMessage(x));
  }
+ applyRoomConfig();
+}
+async function markReadBatch(){
+ const unread=docs.filter(x=>x.data.uid!==me?.uid&&!(x.data.readBy||[]).includes(me.uid)).slice(0,100);
+ if(!unread.length)return;
+ try{const b=writeBatch(db);unread.forEach(x=>b.update(doc(db,"rooms",ROOM_ID,"messages",x.id),{readBy:arrayUnion(me.uid)}));await b.commit()}catch{}
 }
 function startMessages(){
  const q=query(collection(db,"rooms",ROOM_ID,"messages"),orderBy("createdAt","asc"),limit(100));
- onSnapshot(q,s=>{
-  const stick=innerHeight+scrollY>document.body.scrollHeight-220;
-  docs=s.docs.map(x=>({id:x.id,data:x.data()}));renderMessages();
+ onSnapshot(q,async s=>{
+  const oldIds=new Set(docs.map(x=>x.id)),stick=innerHeight+scrollY>document.body.scrollHeight-220;
+  docs=s.docs.map(x=>({id:x.id,data:x.data()}));renderMessages();await markReadBatch();
+  if(!firstMessageSnapshot){
+   for(const x of docs){
+    if(oldIds.has(x.id)||x.data.uid===me?.uid)continue;
+    const t=x.data.text||"";if(myProfile?.name&&t.includes("@"+myProfile.name)){showToast("🔔 メンションされました");if(Notification.permission==="granted")new Notification("TelestgramDM",{body:`${x.data.name||"誰か"}: ${t.slice(0,80)}`,icon:"./icon-192.png"})}
+   }
+  }
+  firstMessageSnapshot=false;
   const last=docs.at(-1);if(last)localStorage.setItem("lastReadAt",String(ms(last.data.createdAt)));
   if(stick)requestAnimationFrame(()=>window.scrollTo({top:document.body.scrollHeight}));
- },showToast);
+ },e=>showToast("接続エラー"));
 }
 searchInput.oninput=renderMessages;
 
 messageForm.onsubmit=async e=>{
  e.preventDefault();const text=messageInput.value.trim();if(!text)return;
- const payload={text,name:myProfile.name,uid:me.uid,createdAt:serverTimestamp(),readBy:[me.uid],reactions:{}};
+ const slow=Number(roomConfig.slowModeSeconds||0),last=Number(localStorage.getItem("lastSentAt")||0),left=slow*1000-(Date.now()-last);
+ if(left>0)return showToast(`あと ${Math.ceil(left/1000)}秒 待ってください`);
+ const payload={type:"text",text,name:myProfile.name,uid:me.uid,createdAt:serverTimestamp(),readBy:[me.uid],reactions:{}};
  if(replyTarget)payload.replyTo={id:replyTarget.id,name:replyTarget.data.name||"匿名",text:replyTarget.data.text||""};
  messageInput.value="";localStorage.removeItem("draft");replyTarget=null;replyBar.classList.add("hidden");typingActive=false;clearTimeout(typingTimer);setTyping(false);
- try{await addDoc(collection(db,"rooms",ROOM_ID,"messages"),payload);scrollToBottom()}catch(e){showToast("送信できませんでした")}
+ try{await addDoc(collection(db,"rooms",ROOM_ID,"messages"),payload);localStorage.setItem("lastSentAt",Date.now());scrollToBottom()}catch(e){showToast("送信できませんでした")}
 };
 function scrollToBottom(){window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"})}scrollBtn.onclick=scrollToBottom;
 messageInput.value=localStorage.getItem("draft")||"";
 messageInput.oninput=()=>{
- localStorage.setItem("draft",messageInput.value);
- if(!typingActive){typingActive=true;setTyping(true)}
+ localStorage.setItem("draft",messageInput.value);if(!typingActive){typingActive=true;setTyping(true)}
  clearTimeout(typingTimer);typingTimer=setTimeout(()=>{typingActive=false;setTyping(false)},1800);
- const v=messageInput.value,m=v.match(/(?:^|\s)@([^\s@]*)$/);
- if(!m){mentionBox.classList.add("hidden");return}
+ const v=messageInput.value,m=v.match(/(?:^|\s)@([^\s@]*)$/);if(!m){mentionBox.classList.add("hidden");return}
  const q=m[1].toLowerCase(),arr=[...profiles.entries()].filter(([uid,p])=>uid!==me.uid&&(p.name||"").toLowerCase().includes(q)).slice(0,6);
  if(!arr.length){mentionBox.classList.add("hidden");return}
  mentionBox.innerHTML=arr.map(([uid,p])=>`<button data-name="${esc(p.name)}">@${esc(p.name)}</button>`).join("");
@@ -248,53 +320,66 @@ messageInput.oninput=()=>{
  mentionBox.querySelectorAll("button").forEach(b=>b.onclick=()=>{messageInput.value=v.replace(/(?:^|\s)@([^\s@]*)$/,x=>x.startsWith(" ")?" @"+b.dataset.name:"@"+b.dataset.name);mentionBox.classList.add("hidden");messageInput.focus()});
 };
 
-emojiBtn.onclick=()=>{const arr=["😀","😂","😍","😭","🔥","👍","❤️","🎉"];messageInput.value+=arr[Math.floor(Math.random()*arr.length)];messageInput.dispatchEvent(new Event("input"));messageInput.focus()};
+emojiBtn.onclick=()=>{const a=["😀","😂","😍","😭","🔥","👍","❤️","🎉","👀"];messageInput.value+=a[Math.floor(Math.random()*a.length)];messageInput.dispatchEvent(new Event("input"));messageInput.focus()};
 cancelReply.onclick=()=>{replyTarget=null;replyBar.classList.add("hidden")};
 
 function openMessageMenu(e,x){
  menuBox.innerHTML="";const m=x.data,mine=m.uid===me.uid;
- const items=[["↩️ 返信",()=>{replyTarget=x;replyText.textContent=`${m.name||"匿名"} に返信`;replyBar.classList.remove("hidden");messageInput.focus()}],
- ["📋 コピー",async()=>{await navigator.clipboard.writeText(m.text||"");showToast("コピーしました")}],
- ["👍 リアクション",()=>toggleReaction(x,"like")]];
- if(mine){
+ const items=[
+  ["↩️ 返信",()=>{replyTarget=x;replyText.textContent=`${m.name||"匿名"} に返信`;replyBar.classList.remove("hidden");messageInput.focus()}],
+  ["📋 コピー",async()=>{await navigator.clipboard.writeText(m.text||m.question||"");showToast("コピーしました")}],
+  ["👍 リアクション",()=>toggleReaction(x,"like")],
+  ["👀 既読した人",()=>showReadPeople(x)]
+ ];
+ if(isAdmin)items.push(["📌 ピン留め",()=>pinMessage(x)]);
+ if(mine&&m.type==="text"){
   items.push(["✏️ 編集",async()=>{const n=prompt("メッセージを編集",m.text||"");if(n===null)return;await updateDoc(doc(db,"rooms",ROOM_ID,"messages",x.id),{text:n.trim().slice(0,1000),editedAt:serverTimestamp()})}]);
   items.push(["🗑️ 送信取り消し",async()=>{if(confirm("このメッセージを削除しますか？"))await deleteDoc(doc(db,"rooms",ROOM_ID,"messages",x.id))}]);
  }
- for(const [label,fn] of items){const b=document.createElement("button");b.textContent=label;b.onclick=async()=>{menuBox.classList.add("hidden");try{await fn()}catch{showToast("操作できませんでした")}};menuBox.appendChild(b)}
- menuBox.style.left=Math.min(innerWidth-190,e.clientX||100)+"px";menuBox.style.top=Math.min(innerHeight-220,e.clientY||100)+"px";menuBox.classList.remove("hidden");
+ for(const [label,fn] of items){const b=document.createElement("button");b.textContent=label;b.onclick=async()=>{menuBox.classList.add("hidden");try{await fn()}catch(e){showToast("操作できませんでした")}};menuBox.appendChild(b)}
+ menuBox.style.left=Math.max(8,Math.min(innerWidth-205,e.clientX||100))+"px";menuBox.style.top=Math.max(8,Math.min(innerHeight-300,e.clientY||100))+"px";menuBox.classList.remove("hidden");
 }
-async function toggleReaction(x,key){
- const ref=doc(db,"rooms",ROOM_ID,"messages",x.id),arr=x.data.reactions?.[key]||[],has=arr.includes(me.uid);
- await updateDoc(ref,{[`reactions.${key}`]:has?arrayRemove(me.uid):arrayUnion(me.uid)});
-}
+async function toggleReaction(x,key){const ref=doc(db,"rooms",ROOM_ID,"messages",x.id),arr=x.data.reactions?.[key]||[],has=arr.includes(me.uid);await updateDoc(ref,{[`reactions.${key}`]:has?arrayRemove(me.uid):arrayUnion(me.uid)})}
+async function votePoll(x,opt){const m=x.data,v=m.pollVotes||{};const updates={};for(const k of Object.keys(v)){if((v[k]||[]).includes(me.uid))updates[`pollVotes.${k}`]=arrayRemove(me.uid)}updates[`pollVotes.${opt}`]=arrayUnion(me.uid);await updateDoc(doc(db,"rooms",ROOM_ID,"messages",x.id),updates)}
 
-function renderMembers(){
- const arr=[...profiles.entries()].sort((a,b)=>ms(b[1].lastSeen)-ms(a[1].lastSeen));
- membersList.innerHTML=arr.map(([uid,p])=>`<div class="member" data-uid="${uid}"><div class="dot ${Date.now()-ms(p.lastSeen)<95000?"":"offlineDot"}"></div><div class="avatar">${avatarHTML(p)}</div><div><b>${esc(p.name||"匿名")}</b><div class="small muted">${fmtLast(p.lastSeen)}</div></div></div>`).join("");
- membersList.querySelectorAll(".member").forEach(e=>e.onclick=()=>openProfile(e.dataset.uid));
-}
-function openProfile(uid){
- const p=profiles.get(uid);if(!p)return;profileBig.innerHTML=avatarHTML(p);profileName.textContent=p.name||"匿名";profileLast.textContent=fmtLast(p.lastSeen);profileBio.textContent=p.bio||"ひとこと未設定";
- const mine=uid===me.uid;myProfileEdit.classList.toggle("hidden",!mine);if(mine){profileNameInput.value=p.name||"";bioInput.value=p.bio||""}profileModal.classList.remove("hidden");
-}
+function peopleNames(uids){return (uids||[]).map(uid=>profiles.get(uid)?.name||"不明").filter(Boolean)}
+function showDetails(title,names){detailsTitle.textContent=title;detailsBody.innerHTML=names.length?names.map(n=>`<div class="member"><div class="avatar">${esc(n.slice(0,1))}</div><b>${esc(n)}</b></div>`).join(""):`<p class="muted">まだいません</p>`;detailsModal.classList.remove("hidden")}
+function showReadPeople(x){showDetails("既読した人",peopleNames((x.data.readBy||[]).filter(uid=>uid!==x.data.uid)))}
+function showReactionPeople(x,key){showDetails("リアクションした人",peopleNames(x.data.reactions?.[key]||[]))}
+closeDetails.onclick=()=>detailsModal.classList.add("hidden");
+
+async function pinMessage(x){await setDoc(doc(db,"rooms",ROOM_ID,"config","main"),{pinnedMessageId:x.id},{merge:true});showToast("ピン留めしました")}
+goPinnedBtn.onclick=()=>{const el=messages.querySelector(`[data-id="${roomConfig.pinnedMessageId}"]`);if(el)el.scrollIntoView({behavior:"smooth",block:"center"});else showToast("現在の100件より前のメッセージです")};
+
+function renderMembers(){const arr=[...profiles.entries()].sort((a,b)=>ms(b[1].lastSeen)-ms(a[1].lastSeen));membersList.innerHTML=arr.map(([uid,p])=>`<div class="member" data-uid="${uid}"><div class="dot ${Date.now()-ms(p.lastSeen)<95000?"":"offlineDot"}"></div><div class="avatar">${avatarHTML(p)}</div><div><b>${esc(p.name||"匿名")}</b><div class="small muted">${fmtLast(p.lastSeen)}</div></div></div>`).join("");membersList.querySelectorAll(".member").forEach(e=>e.onclick=()=>openProfile(e.dataset.uid))}
+function openProfile(uid){const p=profiles.get(uid);if(!p)return;profileBig.innerHTML=avatarHTML(p);profileName.textContent=p.name||"匿名";profileLast.textContent=fmtLast(p.lastSeen);profileBio.textContent=p.bio||"ひとこと未設定";const mine=uid===me.uid;myProfileEdit.classList.toggle("hidden",!mine);if(mine){profileNameInput.value=p.name||"";bioInput.value=p.bio||""}profileModal.classList.remove("hidden")}
 profileBtn.onclick=()=>openProfile(me.uid);closeProfile.onclick=()=>profileModal.classList.add("hidden");membersBtn.onclick=()=>membersModal.classList.remove("hidden");closeMembers.onclick=()=>membersModal.classList.add("hidden");
 
 avatarBtn.onclick=()=>avatarInput.click();
 avatarInput.onchange=()=>{const f=avatarInput.files?.[0];if(!f)return;const img=new Image();img.onload=()=>{const c=document.createElement("canvas");c.width=c.height=96;const ctx=c.getContext("2d"),s=Math.min(img.width,img.height),sx=(img.width-s)/2,sy=(img.height-s)/2;ctx.drawImage(img,sx,sy,s,s,0,0,96,96);myProfile.avatar=c.toDataURL("image/jpeg",.68);profileBig.innerHTML=avatarHTML(myProfile);URL.revokeObjectURL(img.src)};img.src=URL.createObjectURL(f)};
 saveProfileBtn.onclick=async()=>{const n=profileNameInput.value.trim().slice(0,24);if(!n)return showToast("名前を入力してください");myProfile.name=n;myProfile.bio=bioInput.value.trim().slice(0,120);await setDoc(doc(db,"rooms",ROOM_ID,"profiles",me.uid),{name:myProfile.name,bio:myProfile.bio,avatar:myProfile.avatar||"",lastSeen:serverTimestamp()},{merge:true});localStorage.setItem("displayName",myProfile.name);profileModal.classList.add("hidden");showToast("保存しました")};
 
-settingsBtn.onclick=()=>{adminRoomRow.classList.toggle("hidden",!isAdmin);settingsModal.classList.remove("hidden")};closeSettings.onclick=()=>settingsModal.classList.add("hidden");
-adminCodeBtn.onclick=async()=>{const c=prompt("管理者コードを入力");if(!c)return;if(await sha256(c)===ADMIN_CODE_HASH){isAdmin=true;localStorage.setItem("adminMode","1");adminRoomRow.classList.remove("hidden");showToast("管理者モードになりました")}else showToast("管理者コードが違います")};
-renameRoomBtn.onclick=async()=>{if(!isAdmin)return;const n=prompt("新しいルーム名",roomName)?.trim().slice(0,40);if(!n)return;await setDoc(doc(db,"rooms",ROOM_ID,"config","main"),{roomName:n,updatedAt:serverTimestamp()},{merge:true})};
+function refreshAdminUI(){adminBtn.classList.toggle("hidden",!isAdmin)}
+settingsBtn.onclick=()=>settingsModal.classList.remove("hidden");closeSettings.onclick=()=>settingsModal.classList.add("hidden");
+adminCodeBtn.onclick=async()=>{const c=prompt("管理者コードを入力");if(!c)return;if(await sha256(c)===ADMIN_CODE_HASH){isAdmin=true;localStorage.setItem("adminMode","1");refreshAdminUI();showToast("管理者モードになりました")}else showToast("管理者コードが違います")};
+adminBtn.onclick=()=>{if(isAdmin)adminModal.classList.remove("hidden")};closeAdmin.onclick=()=>adminModal.classList.add("hidden");
+renameRoomBtn.onclick=async()=>{const n=prompt("新しいルーム名",roomConfig.roomName||"")?.trim().slice(0,40);if(!n)return;await setDoc(doc(db,"rooms",ROOM_ID,"config","main"),{roomName:n,updatedAt:serverTimestamp()},{merge:true})};
+announcementBtn.onclick=async()=>{const t=prompt("お知らせ内容")?.trim().slice(0,500);if(!t)return;await addDoc(collection(db,"rooms",ROOM_ID,"messages"),{type:"announcement",text:t,name:myProfile.name,uid:me.uid,createdAt:serverTimestamp(),readBy:[me.uid]});adminModal.classList.add("hidden")};
+pollBtn.onclick=async()=>{const q=prompt("質問")?.trim().slice(0,120);if(!q)return;const raw=prompt("選択肢を「 / 」で区切って入力\n例: 行く / 行かない / 未定")?.trim();if(!raw)return;const opts=raw.split("/").map(x=>x.trim()).filter(Boolean).slice(0,4);if(opts.length<2)return showToast("選択肢は2つ以上必要です");await addDoc(collection(db,"rooms",ROOM_ID,"messages"),{type:"poll",question:q,options:opts,pollVotes:{},name:myProfile.name,uid:me.uid,createdAt:serverTimestamp(),readBy:[me.uid],reactions:{}});adminModal.classList.add("hidden")};
+slowSelect.onchange=async()=>{await setDoc(doc(db,"rooms",ROOM_ID,"config","main"),{slowModeSeconds:Number(slowSelect.value)},{merge:true});showToast("スローモードを変更しました")};
+unpinBtn.onclick=async()=>{await setDoc(doc(db,"rooms",ROOM_ID,"config","main"),{pinnedMessageId:""},{merge:true});showToast("ピン留めを解除しました")};
+
+notifyBtn.onclick=async()=>{if(!("Notification"in window))return showToast("このブラウザは通知非対応です");const p=await Notification.requestPermission();showToast(p==="granted"?"通知を許可しました":"通知は許可されませんでした")};
 themeBtn.onclick=()=>{document.body.classList.toggle("light");localStorage.setItem("theme",document.body.classList.contains("light")?"light":"dark")};if(localStorage.getItem("theme")==="light")document.body.classList.add("light");
 let fontMode=Number(localStorage.getItem("fontMode")||1);function applyFont(){document.documentElement.style.setProperty("--font",fontMode===0?.9:fontMode===2?1.12:1)}applyFont();fontBtn.onclick=()=>{fontMode=(fontMode+1)%3;localStorage.setItem("fontMode",fontMode);applyFont()};
 let compact=localStorage.getItem("compact")==="1";function applyCompact(){document.documentElement.style.setProperty("--gap",compact?"5px":"11px")}applyCompact();compactBtn.onclick=()=>{compact=!compact;localStorage.setItem("compact",compact?"1":"0");applyCompact()};
+
+logoutBtn.onclick=async()=>{if(!confirm("この端末からログアウトしますか？"))return;try{await addDoc(collection(db,"rooms",ROOM_ID,"messages"),{type:"system",text:`${myProfile?.name||"ユーザー"} が退出しました`,uid:me.uid,name:myProfile?.name||"",createdAt:serverTimestamp(),readBy:[me.uid]})}catch{}localStorage.removeItem("displayName");localStorage.removeItem("adminMode");await signOut(auth);location.reload()};
 cacheBtn.onclick=()=>{if(!confirm("この端末の保存情報を消しますか？\n次回は名前入力からになります。"))return;localStorage.clear();sessionStorage.clear();location.reload()};
 shareBtn.onclick=async()=>{try{await navigator.clipboard.writeText(location.origin+location.pathname);showToast("グループURLをコピーしました")}catch{}};
 
 document.addEventListener("click",e=>{if(!menuBox.contains(e.target)&&!e.target.classList.contains("moreBtn"))menuBox.classList.add("hidden")});
-[settingsModal,membersModal,profileModal].forEach(m=>m.onclick=e=>{if(e.target===m)m.classList.add("hidden")});
-
+[settingsModal,membersModal,profileModal,adminModal,detailsModal].forEach(m=>m.onclick=e=>{if(e.target===m)m.classList.add("hidden")});
 if("serviceWorker"in navigator)navigator.serviceWorker.register("./firebase-messaging-sw.js").catch(()=>{});
 </script>
 </body>
