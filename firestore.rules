@@ -2,16 +2,27 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
+
     match /rooms/{roomId}/messages/{messageId} {
       allow read: if request.auth != null;
+
       allow create: if request.auth != null
         && request.resource.data.uid == request.auth.uid;
+
       allow update: if request.auth != null
         && (
-          resource.data.uid == request.auth.uid
+          (
+            resource.data.uid == request.auth.uid
+            && request.resource.data.diff(resource.data).affectedKeys()
+              .hasOnly(['text','editedAt','readBy','reactions'])
+          )
           ||
-          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['readBy', 'reactions'])
+          (
+            request.resource.data.diff(resource.data).affectedKeys()
+              .hasOnly(['readBy','reactions'])
+          )
         );
+
       allow delete: if request.auth != null
         && resource.data.uid == request.auth.uid;
     }
@@ -22,9 +33,19 @@ service cloud.firestore {
         && request.auth.uid == userId;
     }
 
+    match /rooms/{roomId}/typing/{userId} {
+      allow read: if request.auth != null;
+      allow create, update, delete: if request.auth != null
+        && request.auth.uid == userId;
+    }
+
     match /rooms/{roomId}/config/{docId} {
       allow read: if request.auth != null;
+
+      // v5の管理者コードは「画面側の簡易ロック」です。
+      // 無料のGitHub Pagesだけでは本物のサーバー管理者判定にはなりません。
       allow create, update: if request.auth != null;
+
       allow delete: if false;
     }
   }

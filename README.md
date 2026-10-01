@@ -1,30 +1,49 @@
-# TelestgramDM v4
+# TelestgramDM v5
 
-追加:
+## 追加・改善
+- 始めるボタンのエラー表示
+- 自動ログイン
 - プロフィール写真
-- プロフィール
+- プロフィール / ひとこと
 - 最終オンライン
 - 未読ライン
 - @メンション候補
 - URL自動リンク
 - 一番下へ移動
+- 返信
+- リアクション
+- 自分のメッセージ編集
+- 送信取り消し
+- メッセージ検索
+- 入力中表示
+- 下書き自動保存
+- ルームURLコピー
 - ルーム名変更
-- 管理者コード入力
-- 一度名前を登録したら次回から自動ログイン
+- 管理者コード
+- テーマ切替
+- 文字サイズ変更
+- コンパクト表示
 - アプリアイコン / PWA
+- スマホ表示改善
+- 通信を軽量化
 
-初期管理者コード:
+## 管理者コード
 TGDM-ADMIN-2026
 
-注意:
-管理者コードは無料のGitHub Pagesだけで実装した「簡易管理者モード」です。
-強固なサーバー側権限制御ではありません。
+## 重要
+Firebase Console → Firestore Database → ルール
+に `firestore.rules` の中身を貼って「公開」してください。
 
-Firebase Console → Firestore Database → ルール に firestore.rules を貼って公開してください。
+管理者コードはGitHub Pagesだけで動く簡易ロックです。
+完全なサーバー側管理者権限ではありません。
 
-GitHubに上書き:
+## GitHubへ上書き
 - index.html
 - firestore.rules
 - manifest.webmanifest
 - icon.svg
 - firebase-messaging-sw.js
+
+公開後、古い画面が出る場合:
+Ctrl + Shift + R
+または URL の最後に ?v=5
