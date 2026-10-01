@@ -2,7 +2,7 @@ importScripts("https://www.gstatic.com/firebasejs/12.4.0/firebase-app-compat.js"
 importScripts("https://www.gstatic.com/firebasejs/12.4.0/firebase-messaging-compat.js");
 
 firebase.initializeApp({
-  apiKey: "AIzaSyCrRzSomSPn0yYyiAiB8Dd0Ssw9ezQFVEg",
+  apiKey: "AIzaSyCrRzSomSPngvYviAjB8DdOSsw9ez0FVEg",
   authDomain: "telestgramdm.firebaseapp.com",
   projectId: "telestgramdm",
   storageBucket: "telestgramdm.firebasestorage.app",
