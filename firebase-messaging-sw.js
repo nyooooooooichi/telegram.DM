@@ -12,7 +12,8 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 messaging.onBackgroundMessage((payload) => {
-  const title = payload.notification?.title || "TelestgramDM";
-  const options = { body: payload.notification?.body || "新しいメッセージがあります" };
-  self.registration.showNotification(title, options);
+  self.registration.showNotification(
+    payload.notification?.title || "TelestgramDM",
+    { body: payload.notification?.body || "新しいメッセージがあります" }
+  );
 });

@@ -1,31 +1,52 @@
-# TelestgramDM FREE
+# TelestgramDM MEGA FREE
 
-完全無料構成です。
-Firebase Storageは使いません。
+Firebase Storageを使わない完全無料構成。
 
-機能:
-- テキストチャット
-- 既読人数
+## 追加機能
+- 返信
+- 自分のメッセージ編集
 - 送信取り消し
-- 通知設定
-- 設定画面
+- 既読人数
+- 4種類のリアクション
+- メッセージ検索
+- オンライン人数
+- オンラインメンバー一覧
+- 入力中表示
+- @自分 のメンション強調
+- 日付区切り
+- 絵文字クイック入力
+- 下書き自動保存
+- 下へスクロールボタン
+- 自分だけメッセージ非表示
+- コピー
+- グループURLコピー
+- 名前変更
+- ダーク/ライト切替
+- 文字サイズ変更
+- コンパクト表示
+- Enter送信ON/OFF
+- 通知音ON/OFF
+- ブラウザ通知
 - 設定内キャッシュリセット
-- 新UI
+- 未読時のブラウザタイトル表示
 
-使うFirebase機能:
-- Authentication（匿名ログイン）
-- Firestore Database
-- Cloud Messaging（ブラウザ通知用）
-
-## Firestoreルール
+## 必須
 Firebase Console → Firestore Database → ルール
-`firestore.rules` の内容に置き換えて公開してください。
+で `firestore.rules` に置き換えて「公開」してください。
 
-## GitHubで更新するファイル
+GitHubには、
 - index.html
 - firebase-messaging-sw.js
 - firestore.rules
 - README.md
+を上書きしてください。
 
-※ 画像、動画、ボイスメッセージはありません。
-※ Firebase Storageは不要です。
+
+## LOW LATENCY版の変更
+- 最初に読むメッセージ数を500件 → 100件
+- 新着1件ごとに必要な部分だけ追加
+- 既読更新で全画面を作り直さない
+- メッセージ編集・既読・リアクションも該当メッセージだけ更新
+- 入力中通信を毎キー入力から初回+停止時中心に削減
+- オンライン更新を25秒 → 40秒
+- 新着時のスクロール処理を軽量化

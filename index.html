@@ -1,90 +1,109 @@
 <!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0b1020">
-  <title>TelestgramDM</title>
-  <style>
-    :root {
-      --bg:#080b12; --panel:#0e1320; --panel2:#151b2a; --panel3:#1b2335;
-      --text:#f7f8fb; --muted:#98a2b3; --line:#253047; --accent:#6c7cff;
-      --accent2:#7c5cff; --danger:#ff5d74; --ok:#55d58a; --bubble:#172033;
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-    button,input{font:inherit}
-    button{cursor:pointer}
-    .hidden{display:none!important}
-    .loginWrap{min-height:100vh;display:grid;place-items:center;padding:24px;background:
-      radial-gradient(circle at 20% 10%,rgba(108,124,255,.18),transparent 28%),
-      radial-gradient(circle at 85% 0%,rgba(124,92,255,.12),transparent 24%),var(--bg)}
-    .loginCard{width:min(460px,100%);background:rgba(14,19,32,.92);border:1px solid var(--line);border-radius:28px;padding:26px;box-shadow:0 24px 80px rgba(0,0,0,.28)}
-    .logo{width:54px;height:54px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));font-size:25px;font-weight:900;margin-bottom:16px}
-    h1{margin:0 0 8px;font-size:30px} .desc{margin:0 0 20px;color:var(--muted);line-height:1.65}
-    input[type="text"]{width:100%;border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:16px;padding:14px 15px;outline:none}
-    input:focus{border-color:var(--accent)}
-    .primary{width:100%;margin-top:12px;border:0;border-radius:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;font-weight:800;padding:14px}
-    .tiny{font-size:12px;color:var(--muted);margin-top:10px}
-    .app{min-height:100vh;display:flex;flex-direction:column}
-    .topbar{height:72px;position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid var(--line);background:rgba(8,11,18,.88);backdrop-filter:blur(16px)}
-    .groupInfo{display:flex;align-items:center;gap:12px;min-width:0}
-    .groupAvatar{width:44px;height:44px;border-radius:15px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;font-weight:900}
-    .groupText{min-width:0} .groupName{font-weight:850;white-space:nowrap;overflow:hidden;text-overflow:ellipsis} .online{font-size:12px;color:var(--ok)}
-    .topActions{display:flex;gap:8px;align-items:center}
-    .iconBtn{width:42px;height:42px;border-radius:14px;border:1px solid var(--line);background:var(--panel2);color:var(--text);display:grid;place-items:center;font-size:18px}
-    .messages{flex:1;width:min(940px,100%);margin:0 auto;padding:18px 18px 130px;display:flex;flex-direction:column;gap:12px}
-    .dayLine{align-self:center;font-size:12px;color:var(--muted);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:7px 10px}
-    .msgRow{display:flex;gap:8px;max-width:80%;align-items:flex-end}
-    .msgRow.mine{align-self:flex-end;flex-direction:row-reverse} .msgRow.other{align-self:flex-start}
-    .miniAvatar{width:30px;height:30px;border-radius:10px;background:var(--panel3);display:grid;place-items:center;font-size:12px;font-weight:800;flex:0 0 auto}
-    .msgBlock{min-width:0}
-    .sender{font-size:11px;color:var(--muted);margin:0 6px 4px}
-    .msgRow.mine .sender{text-align:right}
-    .bubbleWrap{display:flex;align-items:center;gap:6px}
-    .msgRow.mine .bubbleWrap{flex-direction:row-reverse}
-    .bubble{background:var(--bubble);border:1px solid var(--line);border-radius:18px;padding:10px 12px;line-height:1.48;word-break:break-word;overflow:hidden}
-    .msgRow.mine .bubble{background:linear-gradient(135deg,#6577ff,#745cff);border-color:transparent}
-    .meta{font-size:10px;color:var(--muted);margin-top:4px;padding:0 6px}
-    .msgRow.mine .meta{text-align:right}
-    .moreBtn{width:30px;height:30px;border-radius:10px;border:0;background:transparent;color:var(--muted);font-size:18px}
-    .moreBtn:hover{background:var(--panel2)}
-    .composerShell{position:fixed;left:0;right:0;bottom:0;z-index:25;background:linear-gradient(180deg,transparent,rgba(8,11,18,.96) 28%);padding:30px 12px 12px}
-    .composer{width:min(940px,100%);margin:0 auto;border:1px solid var(--line);background:rgba(14,19,32,.96);border-radius:22px;padding:10px;display:flex;gap:8px;align-items:flex-end;box-shadow:0 16px 50px rgba(0,0,0,.28)}
-    .attachGroup{display:flex;gap:6px}
-    .toolBtn{width:42px;height:42px;border:0;border-radius:14px;background:var(--panel2);color:var(--text);font-size:18px;display:grid;place-items:center}
-   
-    .messageInput{flex:1;min-width:0;border:0;background:transparent;color:var(--text);padding:11px 8px;outline:none}
-    .sendBtn{width:46px;height:46px;border:0;border-radius:15px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;font-weight:900;font-size:18px}
-    .modalBack{position:fixed;inset:0;background:rgba(0,0,0,.58);z-index:50;display:grid;place-items:center;padding:18px}
-    .modal{width:min(460px,100%);max-height:80vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:18px}
-    .modalHeader{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-    .modalTitle{font-weight:900;font-size:20px} .closeBtn{width:38px;height:38px;border:0;border-radius:12px;background:var(--panel2);color:var(--text)}
-    .settingRow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
-    .settingRow:last-child{border-bottom:0} .settingText b{display:block;margin-bottom:3px} .settingText span{font-size:12px;color:var(--muted)}
-    .actionBtn{border:0;border-radius:12px;padding:10px 13px;background:var(--panel3);color:var(--text);font-weight:700}
-    .actionBtn.danger{background:rgba(255,93,116,.14);color:#ff8798}
-    .menu{position:fixed;z-index:70;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:6px;min-width:160px;box-shadow:0 18px 50px rgba(0,0,0,.35)}
-    .menu button{width:100%;border:0;background:transparent;color:var(--text);text-align:left;padding:10px;border-radius:10px}
-    .menu button:hover{background:var(--panel2)} .menu .danger{color:#ff8798}
-    .empty{margin:auto;text-align:center;color:var(--muted);padding:50px}
-    @media(max-width:680px){
-      .messages{padding:14px 10px 125px} .msgRow{max-width:90%} .topbar{height:64px;padding:0 10px}
-      .groupAvatar{width:40px;height:40px;border-radius:13px} .iconBtn{width:40px;height:40px}
-      .composerShell{padding:24px 8px 8px} .composer{padding:8px;border-radius:19px} .toolBtn{width:40px;height:40px} .sendBtn{width:43px;height:43px}
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#080b12">
+<title>TelestgramDM</title>
+<style>
+:root{
+  --bg:#080b12;--panel:#0f1420;--panel2:#171e2d;--panel3:#1d2638;
+  --text:#f7f8fb;--muted:#9aa4b6;--line:#263248;--accent:#6b7cff;--accent2:#805cff;
+  --danger:#ff6178;--ok:#55d58a;--bubble:#172033;--fontScale:1;--msgGap:12px;
+}
+body.light{
+  --bg:#eef2f7;--panel:#ffffff;--panel2:#f5f7fb;--panel3:#e9eef6;
+  --text:#172033;--muted:#697386;--line:#d7deea;--bubble:#ffffff;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:calc(16px * var(--fontScale))}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+.loginWrap{min-height:100vh;display:grid;place-items:center;padding:24px;background:
+radial-gradient(circle at 10% 0%,rgba(107,124,255,.18),transparent 30%),
+radial-gradient(circle at 100% 0%,rgba(128,92,255,.14),transparent 30%),var(--bg)}
+.loginCard{width:min(460px,100%);background:var(--panel);border:1px solid var(--line);border-radius:28px;padding:26px}
+.logo{width:56px;height:56px;border-radius:18px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;font-size:26px;font-weight:900;color:white;margin-bottom:16px}
+h1{margin:0 0 8px} .muted{color:var(--muted)} .small{font-size:12px}
+.textInput{width:100%;border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:15px;padding:13px 14px;outline:none}
+.textInput:focus{border-color:var(--accent)}
+.primary{width:100%;border:0;border-radius:15px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;font-weight:800;padding:13px;margin-top:12px}
+.app{min-height:100vh;display:flex;flex-direction:column}
+.topbar{height:68px;position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(15px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 14px}
+.groupInfo{display:flex;align-items:center;gap:11px;min-width:0}
+.groupAvatar{width:43px;height:43px;border-radius:15px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;display:grid;place-items:center;font-weight:900}
+.groupName{font-weight:850} .statusLine{font-size:12px;color:var(--ok)}
+.actions{display:flex;gap:7px}
+.iconBtn{width:41px;height:41px;border-radius:13px;border:1px solid var(--line);background:var(--panel2);color:var(--text);display:grid;place-items:center}
+.searchBar{width:min(940px,calc(100% - 20px));margin:10px auto 0;display:flex;gap:8px}
+.searchBar input{flex:1}
+.messages{width:min(940px,100%);margin:0 auto;padding:14px 14px 150px;display:flex;flex-direction:column;gap:var(--msgGap)}
+.daySep{align-self:center;font-size:11px;color:var(--muted);background:var(--panel);border:1px solid var(--line);padding:6px 10px;border-radius:999px}
+.msgRow{display:flex;gap:8px;max-width:82%;align-items:flex-end}
+.msgRow.mine{align-self:flex-end;flex-direction:row-reverse}
+.msgRow.other{align-self:flex-start}
+.avatar{width:30px;height:30px;border-radius:10px;background:var(--panel3);display:grid;place-items:center;font-size:12px;font-weight:800;flex:0 0 auto}
+.msgBlock{min-width:0}
+.sender{font-size:11px;color:var(--muted);margin:0 6px 4px}
+.mine .sender{text-align:right}
+.bubbleWrap{display:flex;gap:6px;align-items:center}
+.mine .bubbleWrap{flex-direction:row-reverse}
+.bubble{background:var(--bubble);border:1px solid var(--line);border-radius:18px;padding:10px 12px;word-break:break-word;white-space:pre-wrap;line-height:1.45}
+.mine .bubble{background:linear-gradient(135deg,#6578ff,#775cff);border-color:transparent;color:white}
+.replyPreview{font-size:11px;border-left:3px solid currentColor;padding-left:8px;margin-bottom:7px;opacity:.75}
+.meta{font-size:10px;color:var(--muted);margin-top:4px;padding:0 6px}
+.mine .meta{text-align:right}
+.moreBtn{width:30px;height:30px;border:0;border-radius:9px;background:transparent;color:var(--muted)}
+.reactions{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px;padding:0 4px}
+.reactPill{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:999px;padding:3px 7px;font-size:11px}
+.mention{outline:2px solid color-mix(in srgb,var(--accent) 65%,transparent)}
+.typing{width:min(940px,100%);margin:0 auto;padding:0 18px 8px;color:var(--muted);font-size:12px;min-height:24px}
+.replyBar{width:min(940px,calc(100% - 16px));margin:0 auto 6px;background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:8px 10px;display:flex;justify-content:space-between;gap:10px;font-size:12px}
+.composerShell{position:fixed;bottom:0;left:0;right:0;z-index:25;background:linear-gradient(180deg,transparent,var(--bg) 28%);padding:28px 8px 8px}
+.quickEmoji{width:min(940px,100%);margin:0 auto 6px;display:flex;gap:6px;overflow:auto}
+.quickEmoji button{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:10px;padding:7px 9px}
+.composer{width:min(940px,100%);margin:0 auto;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:8px;display:flex;align-items:flex-end;gap:8px}
+.messageInput{flex:1;min-width:0;max-height:120px;resize:none;border:0;background:transparent;color:var(--text);outline:none;padding:10px 8px}
+.sendBtn{width:45px;height:45px;border:0;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;font-weight:900}
+.charCount{font-size:10px;color:var(--muted);padding:0 3px 6px}
+.scrollBtn{position:fixed;right:18px;bottom:118px;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--panel2);color:var(--text);z-index:28}
+.modalBack{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.58);display:grid;place-items:center;padding:16px}
+.modal{width:min(480px,100%);max-height:82vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:18px}
+.modalHeader{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.closeBtn{width:38px;height:38px;border:0;border-radius:12px;background:var(--panel2);color:var(--text)}
+.settingRow{padding:13px 0;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.settingRow:last-child{border-bottom:0}
+.settingRow b{display:block;margin-bottom:3px} .settingRow span{font-size:12px;color:var(--muted)}
+.actionBtn{border:0;border-radius:11px;padding:9px 11px;background:var(--panel3);color:var(--text);font-weight:700}
+.danger{color:#ff8a9b!important}
+.menu{position:fixed;z-index:80;min-width:185px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:6px;box-shadow:0 16px 50px rgba(0,0,0,.35)}
+.menu button{width:100%;border:0;background:transparent;color:var(--text);text-align:left;padding:10px;border-radius:9px}
+.menu button:hover{background:var(--panel2)}
+.member{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.member:last-child{border-bottom:0}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--ok)}
+.empty{margin:auto;text-align:center;color:var(--muted);padding:44px}
+body.compact{--msgGap:5px}
+body.compact .bubble{padding:7px 10px}
+@media(max-width:680px){
+  .topbar{height:62px;padding:0 9px} .messages{padding:12px 9px 150px} .msgRow{max-width:91%}
+  .searchBar{margin-top:8px} .groupAvatar{width:39px;height:39px} .iconBtn{width:39px;height:39px}
+  .composerShell{padding:24px 6px 6px} .composer{border-radius:18px}
+}
+</style>
 </head>
 <body>
+
 <section id="login" class="loginWrap">
   <div class="loginCard">
     <div class="logo">T</div>
     <h1>TelestgramDM</h1>
-    <p class="desc">みんなで使えるリアルタイムグループチャット。表示名だけで参加できます。</p>
+    <p class="muted">無料で使えるリアルタイムグループチャット</p>
     <form id="loginForm">
-      <input id="nameInput" type="text" maxlength="24" placeholder="表示名を入力" required autocomplete="nickname">
+      <input id="nameInput" class="textInput" maxlength="24" placeholder="表示名を入力" required>
       <button class="primary" type="submit">グループに参加</button>
-      <div class="tiny">このURLを知っている人が同じグループに参加します。</div>
+      <div class="small muted" style="margin-top:10px">URLを知っている人が同じグループに参加します。</div>
     </form>
   </div>
 </section>
@@ -93,24 +112,40 @@
   <header class="topbar">
     <div class="groupInfo">
       <div class="groupAvatar">T</div>
-      <div class="groupText">
+      <div>
         <div class="groupName">みんなのグループ</div>
-        <div class="online">● リアルタイム接続中</div>
+        <div id="onlineStatus" class="statusLine">● 接続中</div>
       </div>
     </div>
-    <div class="topActions">
-      <button id="notifyQuickBtn" class="iconBtn" type="button" title="通知">🔔</button>
-      <button id="settingsBtn" class="iconBtn" type="button" title="設定">⚙️</button>
+    <div class="actions">
+      <button id="membersBtn" class="iconBtn" title="メンバー">👥</button>
+      <button id="shareBtn" class="iconBtn" title="共有">🔗</button>
+      <button id="searchBtn" class="iconBtn" title="検索">🔎</button>
+      <button id="settingsBtn" class="iconBtn" title="設定">⚙️</button>
     </div>
   </header>
 
-  <main id="messages" class="messages" aria-live="polite">
-    <div class="empty">メッセージを読み込み中…</div>
-  </main>
+  <div id="searchBar" class="searchBar hidden">
+    <input id="searchInput" class="textInput" placeholder="メッセージを検索">
+    <button id="closeSearch" class="actionBtn">閉じる</button>
+  </div>
+
+  <main id="messages" class="messages"><div class="empty">読み込み中…</div></main>
+  <div id="typingLine" class="typing"></div>
+  <button id="scrollBtn" class="scrollBtn hidden">↓</button>
 
   <div class="composerShell">
+    <div id="replyBar" class="replyBar hidden">
+      <div><b id="replyName"></b><div id="replyText" class="muted"></div></div>
+      <button id="cancelReply" class="closeBtn" type="button">✕</button>
+    </div>
+    <div class="quickEmoji">
+      <button type="button">😀</button><button type="button">😂</button><button type="button">❤️</button>
+      <button type="button">👍</button><button type="button">🔥</button><button type="button">🙏</button>
+    </div>
     <form id="messageForm" class="composer">
-      <input id="messageInput" class="messageInput" maxlength="1000" placeholder="メッセージ…" autocomplete="off">
+      <textarea id="messageInput" class="messageInput" maxlength="1000" rows="1" placeholder="メッセージ…"></textarea>
+      <div id="charCount" class="charCount">0/1000</div>
       <button class="sendBtn" type="submit">➤</button>
     </form>
   </div>
@@ -118,23 +153,44 @@
 
 <div id="settingsModal" class="modalBack hidden">
   <div class="modal">
-    <div class="modalHeader">
-      <div class="modalTitle">設定</div>
-      <button id="closeSettings" class="closeBtn" type="button">✕</button>
-    </div>
-    <div class="settingRow">
-      <div class="settingText"><b>通知</b><span>新しいメッセージの通知を許可します。</span></div>
-      <button id="notifySettingBtn" class="actionBtn" type="button">通知をON</button>
-    </div>
-    <div class="settingRow">
-      <div class="settingText"><b>キャッシュリセット</b><span>この端末だけの一時データを消して軽くします。グループのメッセージは消えません。</span></div>
-      <button id="cacheResetBtn" class="actionBtn danger" type="button">リセット</button>
-    </div>
+    <div class="modalHeader"><h2 style="margin:0">設定</h2><button id="closeSettings" class="closeBtn">✕</button></div>
+    <div class="settingRow"><div><b>表示名</b><span>この端末で使う名前</span></div><button id="changeNameBtn" class="actionBtn">変更</button></div>
+    <div class="settingRow"><div><b>テーマ</b><span>黒 / 白</span></div><button id="themeBtn" class="actionBtn">切替</button></div>
+    <div class="settingRow"><div><b>文字サイズ</b><span>小・標準・大</span></div><button id="fontBtn" class="actionBtn">標準</button></div>
+    <div class="settingRow"><div><b>コンパクト表示</b><span>メッセージ間隔を狭くする</span></div><button id="compactBtn" class="actionBtn">OFF</button></div>
+    <div class="settingRow"><div><b>Enterで送信</b><span>Shift+Enterで改行</span></div><button id="enterBtn" class="actionBtn">ON</button></div>
+    <div class="settingRow"><div><b>通知音</b><span>新着時に短い音を鳴らす</span></div><button id="soundBtn" class="actionBtn">ON</button></div>
+    <div class="settingRow"><div><b>ブラウザ通知</b><span>許可された端末で通知</span></div><button id="notifyBtn" class="actionBtn">ONにする</button></div>
+    <div class="settingRow"><div><b>キャッシュリセット</b><span>この端末だけの一時データを削除</span></div><button id="cacheBtn" class="actionBtn danger">リセット</button></div>
   </div>
 </div>
 
-<div id="messageMenu" class="menu hidden">
-  <button id="cancelMessageBtn" class="danger" type="button">送信を取り消す</button>
+<div id="membersModal" class="modalBack hidden">
+  <div class="modal">
+    <div class="modalHeader"><h2 style="margin:0">オンラインメンバー</h2><button id="closeMembers" class="closeBtn">✕</button></div>
+    <div id="membersList"></div>
+  </div>
+</div>
+
+<div id="editModal" class="modalBack hidden">
+  <div class="modal">
+    <div class="modalHeader"><h2 style="margin:0">メッセージを編集</h2><button id="closeEdit" class="closeBtn">✕</button></div>
+    <textarea id="editInput" class="textInput" style="min-height:110px;resize:vertical"></textarea>
+    <button id="saveEdit" class="primary">保存</button>
+  </div>
+</div>
+
+<div id="menu" class="menu hidden">
+  <button id="replyMenu">↩ 返信</button>
+  <button id="copyMenu">📋 コピー</button>
+  <button id="editMenu">✏️ 編集</button>
+  <button id="hideMenu">🙈 自分だけ非表示</button>
+  <button id="deleteMenu" class="danger">🗑 送信取り消し</button>
+  <div style="height:1px;background:var(--line);margin:4px"></div>
+  <button data-react="like">👍 リアクション</button>
+  <button data-react="heart">❤️ リアクション</button>
+  <button data-react="laugh">😂 リアクション</button>
+  <button data-react="fire">🔥 リアクション</button>
 </div>
 
 <script type="module">
@@ -142,215 +198,349 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebas
 import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
 import {
   getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp,
-  doc, updateDoc, deleteDoc, arrayUnion
+  doc, setDoc, updateDoc, deleteDoc, arrayUnion, arrayRemove
 } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCrRzSomSPngvYviAjB8DdOSsw9ez0FVEg",
-  authDomain: "telestgramdm.firebaseapp.com",
-  projectId: "telestgramdm",
-  storageBucket: "telestgramdm.firebasestorage.app",
-  messagingSenderId: "705244166001",
-  appId: "1:705244166001:web:1ca61eb8c3da30fb8528d0"
+const firebaseConfig={
+ apiKey:"AIzaSyCrRzSomSPngvYviAjB8DdOSsw9ez0FVEg",
+ authDomain:"telestgramdm.firebaseapp.com",
+ projectId:"telestgramdm",
+ storageBucket:"telestgramdm.firebasestorage.app",
+ messagingSenderId:"705244166001",
+ appId:"1:705244166001:web:1ca61eb8c3da30fb8528d0"
+};
+const VAPID_KEY="BBCG75msNmK0UhdYRLucu2HvE3OKmQW_G5EMJovZqhLYVGc3ehhP23tLuNRuzAy7-u-Af7DlPHCuK4guyQLMGW8";
+const ROOM_ID="main-group";
+
+const fb=initializeApp(firebaseConfig), auth=getAuth(fb), db=getFirestore(fb);
+const $=s=>document.querySelector(s);
+const login=$("#login"),app=$("#app"),loginForm=$("#loginForm"),nameInput=$("#nameInput"),
+messages=$("#messages"),messageForm=$("#messageForm"),messageInput=$("#messageInput"),
+charCount=$("#charCount"),typingLine=$("#typingLine"),scrollBtn=$("#scrollBtn"),
+searchBtn=$("#searchBtn"),searchBar=$("#searchBar"),searchInput=$("#searchInput"),closeSearch=$("#closeSearch"),
+settingsBtn=$("#settingsBtn"),settingsModal=$("#settingsModal"),closeSettings=$("#closeSettings"),
+membersBtn=$("#membersBtn"),membersModal=$("#membersModal"),closeMembers=$("#closeMembers"),membersList=$("#membersList"),
+shareBtn=$("#shareBtn"),replyBar=$("#replyBar"),replyName=$("#replyName"),replyText=$("#replyText"),cancelReply=$("#cancelReply"),
+menu=$("#menu"),replyMenu=$("#replyMenu"),copyMenu=$("#copyMenu"),editMenu=$("#editMenu"),hideMenu=$("#hideMenu"),deleteMenu=$("#deleteMenu"),
+editModal=$("#editModal"),editInput=$("#editInput"),closeEdit=$("#closeEdit"),saveEdit=$("#saveEdit"),
+changeNameBtn=$("#changeNameBtn"),themeBtn=$("#themeBtn"),fontBtn=$("#fontBtn"),compactBtn=$("#compactBtn"),
+enterBtn=$("#enterBtn"),soundBtn=$("#soundBtn"),notifyBtn=$("#notifyBtn"),cacheBtn=$("#cacheBtn"),onlineStatus=$("#onlineStatus");
+
+let me=null,name="",replyTarget=null,selected=null,allDocs=[],unsubMessages=null,unsubTyping=null,unsubPresence=null;
+let typingTimer=null,lastIncomingCount=0,lastVisible=true;
+const hiddenIds=new Set(JSON.parse(localStorage.getItem("hiddenMessageIds")||"[]"));
+
+const settings={
+ theme:localStorage.getItem("theme")||"dark",
+ font:localStorage.getItem("font")||"normal",
+ compact:localStorage.getItem("compact")==="1",
+ enterSend:localStorage.getItem("enterSend")!=="0",
+ sound:localStorage.getItem("sound")!=="0"
 };
 
-const VAPID_KEY = "BBCG75msNmK0UhdYRLucu2HvE3OKmQW_G5EMJovZqhLYVGc3ehhP23tLuNRuzAy7-u-Af7DlPHCuK4guyQLMGW8";
-const ROOM_ID = "main-group";
-
-const firebaseApp = initializeApp(firebaseConfig);
-const auth = getAuth(firebaseApp);
-const db = getFirestore(firebaseApp);
-
-const $ = s => document.querySelector(s);
-const login=$("#login"), app=$("#app"), loginForm=$("#loginForm"), nameInput=$("#nameInput"),
-      messages=$("#messages"), messageForm=$("#messageForm"), messageInput=$("#messageInput"),
-      settingsBtn=$("#settingsBtn"), settingsModal=$("#settingsModal"),
-      closeSettings=$("#closeSettings"), notifyQuickBtn=$("#notifyQuickBtn"),
-      notifySettingBtn=$("#notifySettingBtn"), cacheResetBtn=$("#cacheResetBtn"),
-      messageMenu=$("#messageMenu"), cancelMessageBtn=$("#cancelMessageBtn");
-
-let currentUser=null, displayName="", unsubscribe=null;
-let selectedOwnMessage=null;
-const renderedIds = new Set();
-
-function esc(s){
-  return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));}
+function init(n){return (n||"?").trim().slice(0,1).toUpperCase()}
+function tsDate(ts){try{return ts?.toDate?.()||new Date()}catch{return new Date()}}
+function fmtTime(ts){return tsDate(ts).toLocaleTimeString("ja-JP",{hour:"2-digit",minute:"2-digit"})}
+function fmtDay(ts){return tsDate(ts).toLocaleDateString("ja-JP",{month:"short",day:"numeric",weekday:"short"})}
+function myNameMention(text){return name && text.includes("@"+name)}
+function applySettings(){
+ document.body.classList.toggle("light",settings.theme==="light");
+ document.body.classList.toggle("compact",settings.compact);
+ document.documentElement.style.setProperty("--fontScale",settings.font==="small"?".9":settings.font==="large"?"1.12":"1");
+ themeBtn.textContent=settings.theme==="light"?"白":"黒";
+ compactBtn.textContent=settings.compact?"ON":"OFF";
+ enterBtn.textContent=settings.enterSend?"ON":"OFF";
+ soundBtn.textContent=settings.sound?"ON":"OFF";
+ fontBtn.textContent=settings.font==="small"?"小":settings.font==="large"?"大":"標準";
 }
-function initial(name){ return (name||"?").trim().slice(0,1).toUpperCase(); }
-function timeText(ts){ try{ return ts?.toDate?.().toLocaleTimeString("ja-JP",{hour:"2-digit",minute:"2-digit"})||""; }catch{return""} }
+applySettings();
 
-function enterChat(user){
-  currentUser=user;
-  login.classList.add("hidden");
-  app.classList.remove("hidden");
-  startMessages();
-  messageInput.focus();
+function beep(){
+ if(!settings.sound)return;
+ try{
+  const ac=new AudioContext(),o=ac.createOscillator(),g=ac.createGain();
+  o.connect(g);g.connect(ac.destination);o.frequency.value=740;g.gain.value=.04;o.start();o.stop(ac.currentTime+.08);
+ }catch{}
 }
 
-loginForm.addEventListener("submit", async e=>{
-  e.preventDefault();
-  displayName=nameInput.value.trim().slice(0,24);
-  if(!displayName) return alert("表示名を入力してください。");
-  try{
-    if(auth.currentUser) enterChat(auth.currentUser);
-    else await signInAnonymously(auth);
-  }catch(err){
-    console.error(err);
-    alert("参加できませんでした。Firebase設定を確認してください。");
-  }
-});
-
-onAuthStateChanged(auth,user=>{
-  if(!user) return;
-  currentUser=user;
-  if(displayName) enterChat(user);
-});
-
-function messageBody(m){
-  return esc(m.text||"");
+async function setPresence(){
+ if(!me||!name)return;
+ await setDoc(doc(db,"rooms",ROOM_ID,"presence",me.uid),{uid:me.uid,name,lastSeen:serverTimestamp()},{merge:true});
+}
+function startPresence(){
+ setPresence(); setInterval(setPresence,40000);
+ unsubPresence=onSnapshot(collection(db,"rooms",ROOM_ID,"presence"),snap=>{
+  const now=Date.now(),members=[];
+  snap.forEach(d=>{const x=d.data(),t=tsDate(x.lastSeen).getTime();if(now-t<95000)members.push(x);});
+  onlineStatus.textContent=`● ${members.length}人オンライン`;
+  membersList.innerHTML=members.length?members.map(m=>`<div class="member"><div class="dot"></div><b>${esc(m.name||"匿名")}</b></div>`).join(""):'<div class="muted">オンラインの人はいません</div>';
+ });
+}
+async function setTyping(active){
+ if(!me||!name)return;
+ await setDoc(doc(db,"rooms",ROOM_ID,"typing",me.uid),{uid:me.uid,name,active,lastSeen:serverTimestamp()},{merge:true});
+}
+function startTypingWatch(){
+ unsubTyping=onSnapshot(collection(db,"rooms",ROOM_ID,"typing"),snap=>{
+  const now=Date.now(),names=[];
+  snap.forEach(d=>{const x=d.data(); if(x.uid!==me?.uid && x.active && now-tsDate(x.lastSeen).getTime()<8000) names.push(x.name);});
+  typingLine.textContent=names.length?`${names.slice(0,3).join("、")} が入力中…`:"";
+ });
 }
 
-async function markRead(docId, m){
-  if(!currentUser || m.uid===currentUser.uid) return;
-  if(Array.isArray(m.readBy) && m.readBy.includes(currentUser.uid)) return;
-  try{
-    await updateDoc(doc(db,"rooms",ROOM_ID,"messages",docId), {
-      readBy: arrayUnion(currentUser.uid)
-    });
-  }catch(err){ console.warn("read receipt failed",err); }
+
+function buildMessageElement(x){
+ const m=x.data,mine=m.uid===me?.uid;
+ const row=document.createElement("div");
+ row.className="msgRow "+(mine?"mine":"other")+(myNameMention(m.text||"")?" mention":"");
+ row.dataset.id=x.id;
+
+ const reads=(m.readBy||[]).filter(u=>u!==m.uid).length;
+ const reply=m.replyTo?`<div class="replyPreview">${esc(m.replyTo.name)}：${esc((m.replyTo.text||"").slice(0,70))}</div>`:"";
+ const reactions=m.reactions||{};
+ const pills=[["like","👍"],["heart","❤️"],["laugh","😂"],["fire","🔥"]]
+   .filter(([k])=>(reactions[k]||[]).length)
+   .map(([k,e])=>`<button class="reactPill" data-key="${k}" data-id="${x.id}">${e} ${reactions[k].length}</button>`).join("");
+
+ row.innerHTML=`<div class="avatar">${esc(init(m.name))}</div><div class="msgBlock"><div class="sender">${esc(m.name||"匿名")}</div><div class="bubbleWrap"><div class="bubble">${reply}${esc(m.text||"")}</div><button class="moreBtn">⋯</button></div><div class="reactions">${pills}</div><div class="meta">${fmtTime(m.createdAt)}${m.editedAt?" ・ 編集済み":""}${mine?" ・ "+(reads?`既読 ${reads}`:"未読"):""}</div></div>`;
+
+ row.querySelector(".moreBtn").addEventListener("click",e=>openMenu(e,x));
+ row.querySelectorAll(".reactPill").forEach(b=>b.addEventListener("click",()=>toggleReaction(x,b.dataset.key)));
+ return row;
 }
 
-function renderMessage(docSnap){
-  const m=docSnap.data();
-  const mine=m.uid===currentUser?.uid;
-  const row=document.createElement("div");
-  row.className="msgRow "+(mine?"mine":"other");
-  row.dataset.id=docSnap.id;
+function rebuildFilteredView(){
+ const term=searchInput.value.trim().toLowerCase();
+ messages.innerHTML="";
+ let lastDay="";
+ const visible=allDocs.filter(x=>!hiddenIds.has(x.id)).filter(x=>{
+   if(!term)return true;
+   return (x.data.text||"").toLowerCase().includes(term)||(x.data.name||"").toLowerCase().includes(term);
+ });
+ if(!visible.length){
+   messages.innerHTML='<div class="empty">表示するメッセージがありません</div>';
+   return;
+ }
+ for(const x of visible){
+   const day=fmtDay(x.data.createdAt);
+   if(day!==lastDay){
+     const d=document.createElement("div");
+     d.className="daySep";
+     d.textContent=day;
+     messages.appendChild(d);
+     lastDay=day;
+   }
+   messages.appendChild(buildMessageElement(x));
+ }
+}
 
-  const reads=Math.max(0,(m.readBy||[]).filter(x=>x!==m.uid).length);
-  const readText = mine ? (reads>0 ? `既読 ${reads}` : "未読") : "";
+function appendMessageIfVisible(x){
+ if(hiddenIds.has(x.id))return;
+ const term=searchInput.value.trim().toLowerCase();
+ if(term && !((x.data.text||"").toLowerCase().includes(term)||(x.data.name||"").toLowerCase().includes(term))) return;
 
-  row.innerHTML=`
-    <div class="miniAvatar">${esc(initial(m.name||"匿名"))}</div>
-    <div class="msgBlock">
-      <div class="sender">${esc(m.name||"匿名")}</div>
-      <div class="bubbleWrap">
-        <div class="bubble">${messageBody(m)}</div>
-        ${mine ? '<button class="moreBtn" type="button" aria-label="メッセージ操作">⋯</button>' : ''}
-      </div>
-      <div class="meta">${timeText(m.createdAt)}${readText ? " ・ "+readText : ""}</div>
-    </div>
-  `;
+ const currentRows=[...messages.querySelectorAll(".msgRow")];
+ let lastDay="";
+ if(currentRows.length){
+   const prev=allDocs.find(d=>d.id===currentRows[currentRows.length-1].dataset.id);
+   if(prev) lastDay=fmtDay(prev.data.createdAt);
+ }
+ const day=fmtDay(x.data.createdAt);
+ if(day!==lastDay){
+   const d=document.createElement("div");
+   d.className="daySep";
+   d.textContent=day;
+   messages.appendChild(d);
+ }
+ messages.appendChild(buildMessageElement(x));
+}
 
-  if(mine){
-    const more=row.querySelector(".moreBtn");
-    more.addEventListener("click",ev=>{
-      ev.stopPropagation();
-      selectedOwnMessage={
-        id:docSnap.id
-      };
-      const r=more.getBoundingClientRect();
-      messageMenu.style.left=Math.max(8,Math.min(window.innerWidth-175,r.left-130))+"px";
-      messageMenu.style.top=Math.min(window.innerHeight-70,r.bottom+6)+"px";
-      messageMenu.classList.remove("hidden");
-    });
-  }
+function updateExistingMessage(x){
+ const old=messages.querySelector(`.msgRow[data-id="${x.id}"]`);
+ if(!old){ appendMessageIfVisible(x); return; }
+ const fresh=buildMessageElement(x);
+ old.replaceWith(fresh);
+}
 
-  messages.appendChild(row);
-  markRead(docSnap.id,m);
+function render(){
+ rebuildFilteredView();
+}
+
+async function markRead(x){
+ const m=x.data;if(!me||m.uid===me.uid||(m.readBy||[]).includes(me.uid))return;
+ try{await updateDoc(doc(db,"rooms",ROOM_ID,"messages",x.id),{readBy:arrayUnion(me.uid)})}catch{}
 }
 
 function startMessages(){
-  if(unsubscribe) unsubscribe();
-  const q=query(collection(db,"rooms",ROOM_ID,"messages"),orderBy("createdAt","asc"),limit(500));
-  unsubscribe=onSnapshot(q,snap=>{
-    messages.innerHTML="";
-    if(snap.empty){
-      messages.innerHTML='<div class="empty">まだメッセージはありません。最初に送ってみよう。</div>';
-      return;
-    }
-    snap.forEach(renderMessage);
-    window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"});
-  },err=>{
-    console.error(err);
-    messages.innerHTML='<div class="empty">接続できません。Firebase設定を確認してください。</div>';
-  });
+ const q=query(collection(db,"rooms",ROOM_ID,"messages"),orderBy("createdAt","asc"),limit(100));
+ unsubMessages=onSnapshot(q,snap=>{
+   const shouldStick = innerHeight + scrollY > document.body.scrollHeight - 220;
+
+   if(allDocs.length===0){
+     allDocs=snap.docs.map(d=>({id:d.id,data:d.data()}));
+     rebuildFilteredView();
+     for(const x of allDocs) markRead(x);
+     if(shouldStick) requestAnimationFrame(()=>scrollTo({top:document.body.scrollHeight}));
+     return;
+   }
+
+   for(const change of snap.docChanges()){
+     const x={id:change.doc.id,data:change.doc.data()};
+
+     if(change.type==="added"){
+       const exists=allDocs.some(d=>d.id===x.id);
+       if(!exists){
+         allDocs.push(x);
+         allDocs.sort((a,b)=>tsDate(a.data.createdAt)-tsDate(b.data.createdAt));
+         appendMessageIfVisible(x);
+         markRead(x);
+         if(x.data.uid!==me?.uid){
+           if(document.hidden){ beep(); document.title="(1) TelestgramDM"; }
+         }
+       }
+     }
+
+     if(change.type==="modified"){
+       const i=allDocs.findIndex(d=>d.id===x.id);
+       if(i!==-1) allDocs[i]=x;
+       updateExistingMessage(x);
+     }
+
+     if(change.type==="removed"){
+       allDocs=allDocs.filter(d=>d.id!==x.id);
+       const el=messages.querySelector(`.msgRow[data-id="${x.id}"]`);
+       if(el) el.remove();
+     }
+   }
+
+   if(shouldStick) requestAnimationFrame(()=>scrollTo({top:document.body.scrollHeight,behavior:"smooth"}));
+ },e=>{
+   console.error(e);
+   messages.innerHTML='<div class="empty">接続エラー</div>';
+ });
+}
+function enter(user){
+ me=user;login.classList.add("hidden");app.classList.remove("hidden");
+ localStorage.setItem("displayName",name);
+ startMessages();startPresence();startTypingWatch();
+ messageInput.value=localStorage.getItem("draft")||"";updateCount();
 }
 
-messageForm.addEventListener("submit",async e=>{
-  e.preventDefault();
-  const text=messageInput.value.trim();
-  if(!text||!currentUser) return;
-  messageInput.value="";
-  try{
-    await addDoc(collection(db,"rooms",ROOM_ID,"messages"),{
-      type:"text", text, name:displayName, uid:currentUser.uid,
-      readBy:[currentUser.uid], createdAt:serverTimestamp()
-    });
-  }catch(err){
-    console.error(err);
-    alert("送信できませんでした。");
-  }
+loginForm.addEventListener("submit",async e=>{
+ e.preventDefault();name=nameInput.value.trim().slice(0,24);if(!name)return;
+ try{if(auth.currentUser)enter(auth.currentUser);else await signInAnonymously(auth)}catch(err){console.error(err);alert("参加できませんでした");}
 });
+onAuthStateChanged(auth,u=>{if(u&&name)enter(u)});
 
-document.addEventListener("click",()=>messageMenu.classList.add("hidden"));
-messageMenu.addEventListener("click",e=>e.stopPropagation());
-cancelMessageBtn.addEventListener("click",async()=>{
-  if(!selectedOwnMessage) return;
-  if(!confirm("このメッセージの送信を取り消しますか？")) return;
-  try{
-    await deleteDoc(doc(db,"rooms",ROOM_ID,"messages",selectedOwnMessage.id));
-    messageMenu.classList.add("hidden");
-  }catch(err){
-    console.error(err);
-    alert("送信を取り消せませんでした。");
-  }
-});
+messageForm.addEventListener("submit",sendMessage);
+async function sendMessage(e){
+ e.preventDefault();
+ const text=messageInput.value.trim();
+ if(!text||!me)return;
 
-settingsBtn.addEventListener("click",()=>settingsModal.classList.remove("hidden"));
-closeSettings.addEventListener("click",()=>settingsModal.classList.add("hidden"));
-settingsModal.addEventListener("click",e=>{ if(e.target===settingsModal) settingsModal.classList.add("hidden"); });
+ const payload={text,name,uid:me.uid,createdAt:serverTimestamp(),readBy:[me.uid],reactions:{}};
+ if(replyTarget)payload.replyTo={id:replyTarget.id,name:replyTarget.data.name||"匿名",text:replyTarget.data.text||""};
 
-async function enableNotifications(){
-  if(!("Notification" in window)) return alert("このブラウザは通知に対応していません。");
-  const permission=await Notification.requestPermission();
-  if(permission!=="granted") return alert("通知が許可されませんでした。");
-  try{
-    const mod=await import("https://www.gstatic.com/firebasejs/12.4.0/firebase-messaging.js");
-    const messaging=mod.getMessaging(firebaseApp);
-    const reg=await navigator.serviceWorker.register("./firebase-messaging-sw.js");
-    await mod.getToken(messaging,{vapidKey:VAPID_KEY,serviceWorkerRegistration:reg});
-    notifySettingBtn.textContent="通知ON";
-    notifyQuickBtn.textContent="🔔";
-  }catch(err){
-    console.error(err);
-    alert("通知設定に失敗しました。");
-  }
+ messageInput.value="";
+ localStorage.removeItem("draft");
+ replyTarget=null;
+ replyBar.classList.add("hidden");
+ updateCount();
+
+ typingActive=false;
+ clearTimeout(typingTimer);
+ setTyping(false);
+
+ try{
+   await addDoc(collection(db,"rooms",ROOM_ID,"messages"),payload);
+ }catch(err){
+   console.error(err);
+   alert("送信できませんでした");
+ }
 }
-notifyQuickBtn.addEventListener("click",enableNotifications);
-notifySettingBtn.addEventListener("click",enableNotifications);
 
-cacheResetBtn.addEventListener("click",async()=>{
-  if(!confirm("この端末のキャッシュをリセットしますか？\nグループのメッセージは消えません。")) return;
-  try{
-    if("caches" in window){
-      const keys=await caches.keys();
-      await Promise.all(keys.map(k=>caches.delete(k)));
-    }
-    if("serviceWorker" in navigator){
-      const regs=await navigator.serviceWorker.getRegistrations();
-      await Promise.all(regs.map(r=>r.unregister()));
-    }
-    localStorage.clear();
-    sessionStorage.clear();
+function updateCount(){charCount.textContent=`${messageInput.value.length}/1000`;messageInput.style.height="auto";messageInput.style.height=Math.min(120,messageInput.scrollHeight)+"px";}
+let typingActive=false;
+messageInput.addEventListener("input",()=>{
+ updateCount();
+ localStorage.setItem("draft",messageInput.value);
 
-    if(indexedDB.databases){
-      const dbs=await indexedDB.databases();
-      for(const d of dbs) if(d.name) indexedDB.deleteDatabase(d.name);
-    }
-  }catch(err){ console.warn(err); }
-  location.reload();
+ if(!typingActive){
+   typingActive=true;
+   setTyping(true);
+ }
+ clearTimeout(typingTimer);
+ typingTimer=setTimeout(()=>{
+   typingActive=false;
+   setTyping(false);
+ },1800);
 });
+messageInput.addEventListener("keydown",e=>{if(settings.enterSend&&e.key==="Enter"&&!e.shiftKey){e.preventDefault();messageForm.requestSubmit();}});
+document.querySelectorAll(".quickEmoji button").forEach(b=>b.addEventListener("click",()=>{messageInput.value+=b.textContent;messageInput.focus();updateCount();}));
+
+function openMenu(e,x){
+ e.stopPropagation();selected=x;
+ const mine=x.data.uid===me?.uid;
+ editMenu.classList.toggle("hidden",!mine);deleteMenu.classList.toggle("hidden",!mine);
+ const r=e.currentTarget.getBoundingClientRect();menu.style.left=Math.max(8,Math.min(innerWidth-195,r.left-145))+"px";menu.style.top=Math.min(innerHeight-330,r.bottom+5)+"px";menu.classList.remove("hidden");
+}
+document.addEventListener("click",()=>menu.classList.add("hidden"));menu.addEventListener("click",e=>e.stopPropagation());
+
+replyMenu.addEventListener("click",()=>{if(!selected)return;replyTarget=selected;replyName.textContent=selected.data.name||"匿名";replyText.textContent=(selected.data.text||"").slice(0,80);replyBar.classList.remove("hidden");menu.classList.add("hidden");messageInput.focus();});
+cancelReply.addEventListener("click",()=>{replyTarget=null;replyBar.classList.add("hidden");});
+copyMenu.addEventListener("click",async()=>{if(selected)try{await navigator.clipboard.writeText(selected.data.text||"")}catch{}menu.classList.add("hidden");});
+hideMenu.addEventListener("click",()=>{if(selected){hiddenIds.add(selected.id);localStorage.setItem("hiddenMessageIds",JSON.stringify([...hiddenIds]));render();}menu.classList.add("hidden");});
+deleteMenu.addEventListener("click",async()=>{if(selected&&confirm("送信を取り消しますか？"))await deleteDoc(doc(db,"rooms",ROOM_ID,"messages",selected.id));menu.classList.add("hidden");});
+editMenu.addEventListener("click",()=>{if(!selected)return;editInput.value=selected.data.text||"";editModal.classList.remove("hidden");menu.classList.add("hidden");});
+closeEdit.addEventListener("click",()=>editModal.classList.add("hidden"));
+saveEdit.addEventListener("click",async()=>{const t=editInput.value.trim();if(!selected||!t)return;await updateDoc(doc(db,"rooms",ROOM_ID,"messages",selected.id),{text:t,editedAt:serverTimestamp()});editModal.classList.add("hidden");});
+
+async function toggleReaction(x,key){
+ const arr=x.data.reactions?.[key]||[],has=arr.includes(me.uid);
+ await updateDoc(doc(db,"rooms",ROOM_ID,"messages",x.id),{[`reactions.${key}`]:has?arrayRemove(me.uid):arrayUnion(me.uid)});
+}
+menu.querySelectorAll("[data-react]").forEach(b=>b.addEventListener("click",()=>{if(selected)toggleReaction(selected,b.dataset.react);menu.classList.add("hidden");}));
+
+searchBtn.addEventListener("click",()=>{searchBar.classList.toggle("hidden");if(!searchBar.classList.contains("hidden"))searchInput.focus();});
+closeSearch.addEventListener("click",()=>{searchInput.value="";searchBar.classList.add("hidden");render();});
+searchInput.addEventListener("input",rebuildFilteredView);
+
+settingsBtn.addEventListener("click",()=>settingsModal.classList.remove("hidden"));closeSettings.addEventListener("click",()=>settingsModal.classList.add("hidden"));
+membersBtn.addEventListener("click",()=>membersModal.classList.remove("hidden"));closeMembers.addEventListener("click",()=>membersModal.classList.add("hidden"));
+[settingsModal,membersModal,editModal].forEach(m=>m.addEventListener("click",e=>{if(e.target===m)m.classList.add("hidden")}));
+
+shareBtn.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(location.href);alert("URLをコピーしました")}catch{alert(location.href)}});
+
+changeNameBtn.addEventListener("click",async()=>{const n=prompt("新しい表示名",name);if(!n)return;name=n.trim().slice(0,24);localStorage.setItem("displayName",name);await setPresence();});
+themeBtn.addEventListener("click",()=>{settings.theme=settings.theme==="dark"?"light":"dark";localStorage.setItem("theme",settings.theme);applySettings();});
+fontBtn.addEventListener("click",()=>{settings.font=settings.font==="normal"?"large":settings.font==="large"?"small":"normal";localStorage.setItem("font",settings.font);applySettings();});
+compactBtn.addEventListener("click",()=>{settings.compact=!settings.compact;localStorage.setItem("compact",settings.compact?"1":"0");applySettings();});
+enterBtn.addEventListener("click",()=>{settings.enterSend=!settings.enterSend;localStorage.setItem("enterSend",settings.enterSend?"1":"0");applySettings();});
+soundBtn.addEventListener("click",()=>{settings.sound=!settings.sound;localStorage.setItem("sound",settings.sound?"1":"0");applySettings();});
+
+notifyBtn.addEventListener("click",async()=>{
+ if(!("Notification" in window))return alert("通知に対応していません");
+ const p=await Notification.requestPermission();if(p!=="granted")return alert("通知が許可されませんでした");
+ try{
+  const mod=await import("https://www.gstatic.com/firebasejs/12.4.0/firebase-messaging.js");
+  const messaging=mod.getMessaging(fb),reg=await navigator.serviceWorker.register("./firebase-messaging-sw.js");
+  await mod.getToken(messaging,{vapidKey:VAPID_KEY,serviceWorkerRegistration:reg});
+  notifyBtn.textContent="ON";
+ }catch(e){console.error(e);alert("通知設定に失敗しました")}
+});
+
+cacheBtn.addEventListener("click",async()=>{
+ if(!confirm("この端末の一時データを削除しますか？\nグループのメッセージは消えません。"))return;
+ try{if("caches" in window)for(const k of await caches.keys())await caches.delete(k);if("serviceWorker" in navigator)for(const r of await navigator.serviceWorker.getRegistrations())await r.unregister();}catch{}
+ localStorage.clear();sessionStorage.clear();location.reload();
+});
+
+scrollBtn.addEventListener("click",()=>scrollTo({top:document.body.scrollHeight,behavior:"smooth"}));
+addEventListener("scroll",()=>{const near=innerHeight+scrollY>document.body.scrollHeight-350;scrollBtn.classList.toggle("hidden",near);});
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)document.title="TelestgramDM";});
+
+nameInput.value=localStorage.getItem("displayName")||"";
 </script>
 </body>
 </html>
