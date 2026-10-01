@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0b0d">
+  <title>TelestgramDM</title>
+  <style>
+    :root{--bg:#0b0b0d;--panel:#111116;--panel2:#19191f;--text:#f7f7f8;--muted:#9b9ba6;--line:#2a2a32;--accent:#5d82ff;--bubble:#25252d}
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    button,input{font:inherit} button{cursor:pointer}
+    .hidden{display:none!important}
+    .loginWrap{min-height:100vh;display:grid;place-items:center;padding:24px}
+    .card{width:min(440px,100%);background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:24px}
+    .card h1{margin:0 0 8px;font-size:28px} .card p{margin:0 0 18px;color:var(--muted);line-height:1.6}
+    input{width:100%;border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:14px;padding:13px 14px;outline:none}
+    input:focus{border-color:var(--accent)}
+    .primary,.notifyBtn{border:0;border-radius:14px;background:var(--accent);color:white;font-weight:800;padding:13px 16px}
+    .primary{width:100%;margin-top:10px} .notifyBtn{padding:9px 12px;font-size:13px}
+    .app{min-height:100vh;display:flex;flex-direction:column}
+    .topbar{height:68px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:#0e0e12;position:sticky;top:0;z-index:5}
+    .topRight{display:flex;align-items:center;gap:10px} .title{font-weight:800;font-size:18px} .sub{font-size:12px;color:#6edd98} .user{font-size:13px;color:var(--muted)}
+    .messages{flex:1;display:flex;flex-direction:column;gap:10px;padding:18px;max-width:900px;width:100%;margin:0 auto}
+    .msg{max-width:min(75%,620px);display:flex;flex-direction:column;gap:4px} .mine{align-self:flex-end;align-items:flex-end} .other{align-self:flex-start;align-items:flex-start}
+    .meta{font-size:11px;color:var(--muted);padding:0 5px} .bubble{background:var(--bubble);padding:10px 13px;border-radius:18px;line-height:1.45;word-break:break-word} .mine .bubble{background:var(--accent);color:white}
+    .composerWrap{border-top:1px solid var(--line);background:#0e0e12;position:sticky;bottom:0} .composer{max-width:900px;margin:0 auto;display:flex;gap:10px;padding:12px} .composer input{border-radius:999px}
+    .send{min-width:72px;border:0;border-radius:999px;background:var(--accent);color:white;font-weight:800} .empty{margin:auto;text-align:center;color:var(--muted);padding:40px} .notice{margin-top:10px;font-size:12px;color:var(--muted)}
+    @media(max-width:640px){.messages{padding:14px 10px}.msg{max-width:86%}.topbar{height:62px;padding:0 12px}.composer{padding:10px}.send{min-width:64px}.notifyBtn{padding:8px 10px}.user{display:none}}
+  </style>
+</head>
+<body>
+<section id="login" class="loginWrap">
+  <div class="card">
+    <h1>TelestgramDM</h1>
+    <p>このURLを開いた人は、全員同じグループチャットに参加します。</p>
+    <form id="loginForm">
+      <input id="nameInput" maxlength="24" placeholder="表示名を入力" required autocomplete="nickname">
+      <button class="primary" type="submit">グループに参加</button>
+      <div class="notice">メール登録なし。表示名だけで参加できます。</div>
+    </form>
+  </div>
+</section>
+
+<section id="app" class="app hidden">
+  <header class="topbar">
+    <div><div class="title">みんなのグループ</div><div class="sub">● リアルタイム</div></div>
+    <div class="topRight"><button id="notifyBtn" class="notifyBtn" type="button">通知をON</button><div id="meLabel" class="user"></div></div>
+  </header>
+  <main id="messages" class="messages" aria-live="polite"><div class="empty">メッセージを読み込み中…</div></main>
+  <div class="composerWrap">
+    <form id="messageForm" class="composer">
+      <input id="messageInput" maxlength="1000" placeholder="メッセージ…" autocomplete="off">
+      <button class="send" type="submit">送信</button>
+    </form>
+  </div>
+</section>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-messaging.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCrRzSomSPn0yYyiAiB8Dd0Ssw9ezQFVEg",
+  authDomain: "telestgramdm.firebaseapp.com",
+  projectId: "telestgramdm",
+  storageBucket: "telestgramdm.firebasestorage.app",
+  messagingSenderId: "705244166001",
+  appId: "1:705244166001:web:1ca61eb8c3da30fb8528d0"
+};
+
+const VAPID_KEY = "BBCG75msNmK0UhdYRLucu2HvE3OKmQW_G5EMJovZqhLYVGc3ehhP23tLuNRuzAy7-u-Af7DlPHCuK4guyQLMGW8";
+const ROOM_ID = "main-group";
+
+const firebaseApp = initializeApp(firebaseConfig);
+const auth = getAuth(firebaseApp);
+const db = getFirestore(firebaseApp);
+let messaging = null;
+try { messaging = getMessaging(firebaseApp); } catch(e) { console.warn(e); }
+
+const $ = s => document.querySelector(s);
+const login=$("#login"), app=$("#app"), loginForm=$("#loginForm"), nameInput=$("#nameInput"),
+      meLabel=$("#meLabel"), messages=$("#messages"), messageForm=$("#messageForm"),
+      messageInput=$("#messageInput"), notifyBtn=$("#notifyBtn");
+
+let currentUser=null, displayName="", firstLoad=true, knownIds=new Set();
+
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));}
+function timeText(ts){try{return ts?.toDate?.().toLocaleTimeString("ja-JP",{hour:"2-digit",minute:"2-digit"})||""}catch{return""}}
+
+async function enableNotifications(){
+  if(!("Notification" in window)) return alert("このブラウザは通知に対応していません。");
+  const permission = await Notification.requestPermission();
+  if(permission!=="granted") return alert("通知が許可されませんでした。");
+
+  try{
+    const reg = await navigator.serviceWorker.register("./firebase-messaging-sw.js");
+    if(messaging){
+      await getToken(messaging, { vapidKey: VAPID_KEY, serviceWorkerRegistration: reg });
+    }
+    notifyBtn.textContent="通知ON";
+    notifyBtn.disabled=true;
+  }catch(err){
+    console.error(err);
+    alert("通知設定に失敗しました。ページを再読み込みしてもう一度試してください。");
+  }
+}
+notifyBtn.addEventListener("click", enableNotifications);
+
+if(messaging){
+  onMessage(messaging,payload=>{
+    const title=payload.notification?.title||"新しいメッセージ";
+    const body=payload.notification?.body||"";
+    if(Notification.permission==="granted") new Notification(title,{body});
+  });
+}
+
+function startMessages(){
+  const q=query(collection(db,"rooms",ROOM_ID,"messages"),orderBy("createdAt","asc"),limit(500));
+  onSnapshot(q,snap=>{
+    messages.innerHTML="";
+    if(snap.empty){
+      messages.innerHTML='<div class="empty">まだメッセージはありません。最初に送ってみよう。</div>';
+      return;
+    }
+    const newIds=new Set();
+    snap.forEach(doc=>{
+      const m=doc.data(); newIds.add(doc.id);
+      const mine=m.uid===currentUser?.uid;
+      const el=document.createElement("div");
+      el.className="msg "+(mine?"mine":"other");
+      el.innerHTML=`<div class="meta">${esc(m.name||"匿名")} ・ ${timeText(m.createdAt)}</div><div class="bubble">${esc(m.text||"")}</div>`;
+      messages.appendChild(el);
+
+      if(!firstLoad && !knownIds.has(doc.id) && !mine && document.hidden && Notification.permission==="granted"){
+        new Notification(m.name||"新しいメッセージ",{body:m.text||""});
+      }
+    });
+    knownIds=newIds; firstLoad=false;
+    window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"});
+  },err=>{
+    console.error(err);
+    messages.innerHTML='<div class="empty">接続できません。Firebase設定を確認してください。</div>';
+  });
+}
+
+loginForm.addEventListener("submit",async e=>{
+  e.preventDefault();
+  displayName=nameInput.value.trim().slice(0,24);
+  if(!displayName)return;
+  await signInAnonymously(auth);
+});
+
+onAuthStateChanged(auth,user=>{
+  if(!user)return;
+  currentUser=user; meLabel.textContent=displayName;
+  login.classList.add("hidden"); app.classList.remove("hidden");
+  startMessages(); messageInput.focus();
+  if(Notification.permission==="granted"){notifyBtn.textContent="通知ON";notifyBtn.disabled=true;}
+});
+
+messageForm.addEventListener("submit",async e=>{
+  e.preventDefault();
+  const text=messageInput.value.trim();
+  if(!text||!currentUser)return;
+  messageInput.value="";
+  try{
+    await addDoc(collection(db,"rooms",ROOM_ID,"messages"),{text,name:displayName,uid:currentUser.uid,createdAt:serverTimestamp()});
+  }catch(err){console.error(err);alert("送信できませんでした。");}
+});
+</script>
+</body>
+</html>
