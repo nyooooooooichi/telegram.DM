@@ -3,8 +3,18 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /rooms/{roomId}/messages/{messageId} {
-      allow read, create: if request.auth != null;
-      allow update, delete: if false;
+      allow read: if request.auth != null;
+
+      allow create: if request.auth != null
+        && request.resource.data.uid == request.auth.uid;
+
+      // 既読(readBy)だけは参加者全員が更新可能
+      allow update: if request.auth != null
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['readBy']);
+
+      // 送信取り消しは送った本人だけ
+      allow delete: if request.auth != null
+        && resource.data.uid == request.auth.uid;
     }
   }
 }

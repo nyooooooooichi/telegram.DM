@@ -1,19 +1,31 @@
-# TelestgramDM 公開用
+# TelestgramDM FREE
 
-Firebase設定とWeb Push(VAPID)公開鍵は設定済みです。
+完全無料構成です。
+Firebase Storageは使いません。
 
-GitHub Pagesで公開する場合:
-1. GitHubで新しい公開Repositoryを作成
-2. index.html と firebase-messaging-sw.js をアップロード
-3. Settings → Pages
-4. Source: Deploy from a branch
-5. Branch: main / root
-6. Save
-7. 数分後に表示される https://ユーザー名.github.io/リポジトリ名/ を共有
+機能:
+- テキストチャット
+- 既読人数
+- 送信取り消し
+- 通知設定
+- 設定画面
+- 設定内キャッシュリセット
+- 新UI
 
-注意:
-- Authentication の「匿名」が有効になっている必要があります。
-- Firestoreルールは同梱の firestore.rules と同じ内容にしてください。
-- HTTPSで公開してください（GitHub PagesはHTTPS）。
-- この版の通知は、ページが開いている/バックグラウンドタブにいる時に動作します。
-- ブラウザを完全に閉じた状態でも、送信者の投稿をきっかけに全員へPush通知を送るには、Cloud Functions等のサーバー側送信処理が別途必要です。
+使うFirebase機能:
+- Authentication（匿名ログイン）
+- Firestore Database
+- Cloud Messaging（ブラウザ通知用）
+
+## Firestoreルール
+Firebase Console → Firestore Database → ルール
+`firestore.rules` の内容に置き換えて公開してください。
+
+## GitHubで更新するファイル
+- index.html
+- firebase-messaging-sw.js
+- firestore.rules
+- README.md
+
+※ 画像、動画、ボイスメッセージはありません。
+※ Firebase Storageは不要です。
