@@ -1,51 +1,40 @@
 rules_version = '2';
-
 service cloud.firestore {
   match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function hasProfile(roomId) { return exists(/databases/$(database)/documents/rooms/$(roomId)/profiles/$(request.auth.uid)); }
+    function myProfile(roomId) { return get(/databases/$(database)/documents/rooms/$(roomId)/profiles/$(request.auth.uid)).data; }
+    function notKicked(roomId) { return signedIn() && (!hasProfile(roomId) || myProfile(roomId).kicked != true); }
+    function notMuted(roomId) { return signedIn() && (!hasProfile(roomId) || myProfile(roomId).muted != true); }
 
     match /rooms/{roomId}/messages/{messageId} {
-      allow read: if request.auth != null;
-
-      allow create: if request.auth != null
-        && request.resource.data.uid == request.auth.uid;
-
-      allow update: if request.auth != null
-        && (
-          (
-            resource.data.uid == request.auth.uid
-            && request.resource.data.diff(resource.data).affectedKeys()
-              .hasOnly(['text','editedAt','readBy','reactions','pollVotes'])
-          )
-          ||
-          (
-            request.resource.data.diff(resource.data).affectedKeys()
-              .hasOnly(['readBy','reactions','pollVotes'])
-          )
-        );
-
-      allow delete: if request.auth != null
-        && resource.data.uid == request.auth.uid;
+      allow read: if notKicked(roomId);
+      allow create: if notKicked(roomId) && notMuted(roomId) && request.resource.data.uid == request.auth.uid;
+      allow update: if notKicked(roomId) && (
+        (resource.data.uid == request.auth.uid && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['text','editedAt','readBy','reactions','pollVotes']))
+        || request.resource.data.diff(resource.data).affectedKeys().hasOnly(['readBy','reactions','pollVotes'])
+      );
+      allow delete: if signedIn() && resource.data.uid == request.auth.uid;
     }
 
     match /rooms/{roomId}/profiles/{userId} {
-      allow read: if request.auth != null;
-      allow create, update, delete: if request.auth != null
-        && request.auth.uid == userId;
+      allow read: if signedIn();
+      allow create: if signedIn() && request.auth.uid == userId;
+      allow update: if signedIn() && (
+        request.auth.uid == userId
+        || request.resource.data.diff(resource.data).affectedKeys().hasOnly(['kicked','kickReason','kickedAt','muted','isAdmin'])
+      );
+      allow delete: if signedIn() && request.auth.uid == userId;
     }
 
     match /rooms/{roomId}/typing/{userId} {
-      allow read: if request.auth != null;
-      allow create, update, delete: if request.auth != null
-        && request.auth.uid == userId;
+      allow read: if notKicked(roomId);
+      allow create, update, delete: if notKicked(roomId) && request.auth.uid == userId;
     }
 
     match /rooms/{roomId}/config/{docId} {
-      allow read: if request.auth != null;
-
-      // Mark.6 の管理者コードは画面側の簡易ロック。
-      // GitHub Pagesだけでは、本物のサーバー側管理者権限にはできません。
-      allow create, update: if request.auth != null;
-
+      allow read: if notKicked(roomId);
+      allow create, update: if notKicked(roomId);
       allow delete: if false;
     }
   }
