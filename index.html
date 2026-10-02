@@ -7,7 +7,7 @@
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icon-192.png">
 <link rel="apple-touch-icon" href="./icon-192.png">
-<title>TelestgramDM Mark.7.1</title>
+<title>TelestgramDM Mark.7.2</title>
 <style>
 :root{
  --bg:#090c13;--panel:#101622;--panel2:#171f2d;--panel3:#202a3c;--text:#f7f8fb;
@@ -75,7 +75,7 @@ button,input,textarea,select{font:inherit}button{cursor:pointer}.hidden{display:
 
 <section id="login" class="loginWrap">
  <div class="card">
-  <div class="brand"><div class="logo">T</div><div><h1 style="margin:0">TelestgramDM</h1><span class="mark">Mark.7.1</span></div></div>
+  <div class="brand"><div class="logo">T</div><div><h1 style="margin:0">TelestgramDM</h1><span class="mark">Mark.7.2</span></div></div>
   <p class="muted">表示名は最初の1回だけ設定します。</p>
   <form id="loginForm"><input id="nameInput" class="textInput" maxlength="24" placeholder="表示名を入力" required><button id="startBtn" class="primary">はじめる</button></form>
   <div id="loginError" class="errorBox hidden"></div>
@@ -145,7 +145,7 @@ button,input,textarea,select{font:inherit}button{cursor:pointer}.hidden{display:
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
 import { getAuth, signInAnonymously, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
-import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp, doc, setDoc, getDoc, updateDoc, deleteDoc, arrayUnion, arrayRemove, writeBatch } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, query, orderBy, limit, limitToLast, onSnapshot, serverTimestamp, doc, setDoc, getDoc, updateDoc, deleteDoc, arrayUnion, arrayRemove, writeBatch } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
 const firebaseConfig={apiKey:"AIzaSyCrRzSomSPngvYviAjB8DdOSsw9ez0FVEg",authDomain:"telestgramdm.firebaseapp.com",projectId:"telestgramdm",storageBucket:"telestgramdm.firebasestorage.app",messagingSenderId:"705244166001",appId:"1:705244166001:web:1ca61eb8c3da30fb8528d0"};
 const fb=initializeApp(firebaseConfig),auth=getAuth(fb),db=getFirestore(fb),ROOM_ID="main-group",ADMIN_CODE_HASH="1b51c82b6956ef897f3eef0a9ba512d65291f5d3ea8dd71ed8ae37e191797720";
@@ -289,7 +289,7 @@ async function markReadBatch(){
  try{const b=writeBatch(db);unread.forEach(x=>b.update(doc(db,"rooms",ROOM_ID,"messages",x.id),{readBy:arrayUnion(me.uid)}));await b.commit()}catch{}
 }
 function startMessages(){
- const q=query(collection(db,"rooms",ROOM_ID,"messages"),orderBy("createdAt","asc"),limit(100));
+ const q=query(collection(db,"rooms",ROOM_ID,"messages"),orderBy("createdAt","asc"),limitToLast(100));
  onSnapshot(q,async s=>{
   const oldIds=new Set(docs.map(x=>x.id)),stick=innerHeight+scrollY>document.body.scrollHeight-220;
   docs=s.docs.map(x=>({id:x.id,data:x.data()}));renderMessages();await markReadBatch();

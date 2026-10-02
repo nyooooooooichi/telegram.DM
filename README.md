@@ -1,4 +1,4 @@
-# TelestgramDM Mark.7.1
+# TelestgramDM Mark.7.2
 
 追加:
 - 管理者がメンバーを退会させる
@@ -35,3 +35,8 @@ GitHubへ上書き:
 - 送信中 / 成功 / 失敗を画面に表示
 - 失敗時はFirebaseのエラーコードも表示
 - ChromebookではEnterで送信、Shift+Enterで改行
+
+
+## Mark.7.2 修正
+- 古い100件ではなく最新100件をリアルタイム表示
+- 新規送信が100件超過後に見えなくなる問題を修正
