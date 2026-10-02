@@ -1,4 +1,4 @@
-# TelestgramDM Mark.7
+# TelestgramDM Mark.7.1
 
 追加:
 - 管理者がメンバーを退会させる
@@ -28,3 +28,10 @@ GitHubへ上書き:
 - icon-512.png
 
 公開後: https://nyooooooooichi.github.io/telegram.DM/?v=7
+
+
+## Mark.7.1 修正
+- 送信ボタンを明示的に送信処理へ接続
+- 送信中 / 成功 / 失敗を画面に表示
+- 失敗時はFirebaseのエラーコードも表示
+- ChromebookではEnterで送信、Shift+Enterで改行

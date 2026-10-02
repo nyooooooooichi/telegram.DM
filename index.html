@@ -7,7 +7,7 @@
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icon-192.png">
 <link rel="apple-touch-icon" href="./icon-192.png">
-<title>TelestgramDM Mark.7</title>
+<title>TelestgramDM Mark.7.1</title>
 <style>
 :root{
  --bg:#090c13;--panel:#101622;--panel2:#171f2d;--panel3:#202a3c;--text:#f7f8fb;
@@ -75,7 +75,7 @@ button,input,textarea,select{font:inherit}button{cursor:pointer}.hidden{display:
 
 <section id="login" class="loginWrap">
  <div class="card">
-  <div class="brand"><div class="logo">T</div><div><h1 style="margin:0">TelestgramDM</h1><span class="mark">Mark.7</span></div></div>
+  <div class="brand"><div class="logo">T</div><div><h1 style="margin:0">TelestgramDM</h1><span class="mark">Mark.7.1</span></div></div>
   <p class="muted">表示名は最初の1回だけ設定します。</p>
   <form id="loginForm"><input id="nameInput" class="textInput" maxlength="24" placeholder="表示名を入力" required><button id="startBtn" class="primary">はじめる</button></form>
   <div id="loginError" class="errorBox hidden"></div>
@@ -98,7 +98,7 @@ button,input,textarea,select{font:inherit}button{cursor:pointer}.hidden{display:
 
 <div class="composerShell">
  <div id="replyBar" class="replyBar hidden"><span id="replyText"></span><button id="cancelReply" class="closeBtn" type="button">✕</button></div>
- <form id="messageForm" class="composer"><button id="emojiBtn" class="emojiBtn" type="button">😊</button><textarea id="messageInput" class="messageInput" maxlength="1000" rows="1" placeholder="メッセージ…"></textarea><button class="sendBtn">➤</button></form>
+ <form id="messageForm" class="composer"><button id="emojiBtn" class="emojiBtn" type="button">😊</button><textarea id="messageInput" class="messageInput" maxlength="1000" rows="1" placeholder="メッセージ…"></textarea><button id="sendBtn" class="sendBtn" type="submit">➤</button></form>
 </div>
 </section>
 
@@ -152,7 +152,7 @@ const fb=initializeApp(firebaseConfig),auth=getAuth(fb),db=getFirestore(fb),ROOM
 const $=s=>document.querySelector(s);
 
 const login=$("#login"),kicked=$("#kicked"),kickReason=$("#kickReason"),app=$("#app"),loginForm=$("#loginForm"),nameInput=$("#nameInput"),loginError=$("#loginError"),startBtn=$("#startBtn");
-const messages=$("#messages"),messageForm=$("#messageForm"),messageInput=$("#messageInput"),scrollBtn=$("#scrollBtn"),searchInput=$("#searchInput"),shareBtn=$("#shareBtn"),favoritesBtn=$("#favoritesBtn");
+const messages=$("#messages"),messageForm=$("#messageForm"),messageInput=$("#messageInput"),sendBtn=$("#sendBtn"),scrollBtn=$("#scrollBtn"),searchInput=$("#searchInput"),shareBtn=$("#shareBtn"),favoritesBtn=$("#favoritesBtn");
 const settingsModal=$("#settingsModal"),settingsBtn=$("#settingsBtn"),closeSettings=$("#closeSettings"),membersModal=$("#membersModal"),membersBtn=$("#membersBtn"),closeMembers=$("#closeMembers"),membersList=$("#membersList"),memberSearch=$("#memberSearch"),membersTitle=$("#membersTitle");
 const profileModal=$("#profileModal"),profileBtn=$("#profileBtn"),closeProfile=$("#closeProfile"),profileBig=$("#profileBig"),profileName=$("#profileName"),profileLast=$("#profileLast"),profileStatus=$("#profileStatus"),profileBio=$("#profileBio"),myProfileEdit=$("#myProfileEdit"),avatarBtn=$("#avatarBtn"),avatarInput=$("#avatarInput"),profileNameInput=$("#profileNameInput"),bioInput=$("#bioInput"),saveProfileBtn=$("#saveProfileBtn");
 const adminBtn=$("#adminBtn"),adminModal=$("#adminModal"),closeAdmin=$("#closeAdmin"),adminRoomName=$("#adminRoomName"),adminRoomDesc=$("#adminRoomDesc"),renameRoomBtn=$("#renameRoomBtn"),roomDescBtn=$("#roomDescBtn"),announcementBtn=$("#announcementBtn"),pollBtn=$("#pollBtn"),slowSelect=$("#slowSelect"),unpinBtn=$("#unpinBtn"),adminMembersBtn=$("#adminMembersBtn");
@@ -306,17 +306,89 @@ function startMessages(){
 }
 searchInput.oninput=renderMessages;
 
-messageForm.onsubmit=async e=>{
- e.preventDefault();const text=messageInput.value.trim();if(!text)return;if(myProfile?.kicked)return showKicked(myProfile.kickReason||"");if(myProfile?.muted)return showToast("管理者により書き込み禁止中です");
- const slow=Number(roomConfig.slowModeSeconds||0),last=Number(localStorage.getItem("lastSentAt")||0),left=slow*1000-(Date.now()-last);
+let sendingNow=false;
+
+async function sendCurrentMessage(e){
+ if(e)e.preventDefault();
+ if(sendingNow)return;
+
+ const text=messageInput.value.trim();
+ if(!text){
+   showToast("メッセージを入力してください");
+   messageInput.focus();
+   return;
+ }
+ if(!me||!myProfile){
+   showToast("接続準備中です。少し待ってください");
+   return;
+ }
+ if(myProfile.kicked)return showKicked(myProfile.kickReason||"");
+ if(myProfile.muted)return showToast("管理者により書き込み禁止中です");
+
+ const slow=Number(roomConfig.slowModeSeconds||0);
+ const last=Number(localStorage.getItem("lastSentAt")||0);
+ const left=slow*1000-(Date.now()-last);
  if(left>0)return showToast(`あと ${Math.ceil(left/1000)}秒 待ってください`);
- const payload={type:"text",text,name:myProfile.name,uid:me.uid,createdAt:serverTimestamp(),readBy:[me.uid],reactions:{}};
- if(replyTarget)payload.replyTo={id:replyTarget.id,name:replyTarget.data.name||"匿名",text:replyTarget.data.text||""};
- messageInput.value="";localStorage.removeItem("draft");replyTarget=null;replyBar.classList.add("hidden");typingActive=false;clearTimeout(typingTimer);setTyping(false);
- try{await addDoc(collection(db,"rooms",ROOM_ID,"messages"),payload);localStorage.setItem("lastSentAt",Date.now());scrollToBottom()}catch(e){showToast("送信できませんでした")}
-};
+
+ sendingNow=true;
+ sendBtn.disabled=true;
+ const originalText=text;
+
+ const payload={
+   type:"text",
+   text:originalText,
+   name:myProfile.name||localStorage.getItem("displayName")||"匿名",
+   uid:me.uid,
+   createdAt:serverTimestamp(),
+   readBy:[me.uid],
+   reactions:{}
+ };
+ if(replyTarget){
+   payload.replyTo={
+     id:replyTarget.id,
+     name:replyTarget.data.name||"匿名",
+     text:replyTarget.data.text||""
+   };
+ }
+
+ try{
+   showToast("送信中…");
+   await addDoc(collection(db,"rooms",ROOM_ID,"messages"),payload);
+
+   messageInput.value="";
+   localStorage.removeItem("draft");
+   replyTarget=null;
+   replyBar.classList.add("hidden");
+   typingActive=false;
+   clearTimeout(typingTimer);
+   setTyping(false);
+
+   localStorage.setItem("lastSentAt",String(Date.now()));
+   showToast("送信しました");
+   scrollToBottom();
+ }catch(err){
+   console.error("MESSAGE SEND ERROR:",err);
+   showToast("送信失敗: "+(err?.code||err?.message||"不明なエラー"));
+ }finally{
+   sendingNow=false;
+   sendBtn.disabled=false;
+   messageInput.focus();
+ }
+}
+
+messageForm.addEventListener("submit",sendCurrentMessage);
+sendBtn.addEventListener("click",e=>{
+ e.preventDefault();
+ sendCurrentMessage(e);
+});
 function scrollToBottom(){window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"})}scrollBtn.onclick=scrollToBottom;
 messageInput.value=localStorage.getItem("draft")||"";
+messageInput.addEventListener("keydown",e=>{
+ if(e.key==="Enter"&&!e.shiftKey&&!e.isComposing){
+   e.preventDefault();
+   sendCurrentMessage(e);
+ }
+});
 messageInput.oninput=()=>{
  localStorage.setItem("draft",messageInput.value);if(!typingActive){typingActive=true;setTyping(true)}
  clearTimeout(typingTimer);typingTimer=setTimeout(()=>{typingActive=false;setTyping(false)},1800);
